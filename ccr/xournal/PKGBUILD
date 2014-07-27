@@ -1,0 +1,30 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Neophytos Kolokotronis <tetris4@gmail.com>
+# Contributor: from Arch: Gaetan Bisson <bisson@archlinux.org>
+
+pkgname=xournal
+pkgver=0.4.8
+pkgrel=1
+pkgdesc='Notetaking and sketching application'
+url='http://xournal.sourceforge.net/'
+license=('GPL')
+arch=('x86_64')
+depends=('libgnomecanvas' 'poppler-glib' 'shared-mime-info' 'desktop-file-utils' 'hicolor-icon-theme')
+optdepends=('ghostscript: import PS/PDF files as bitmap backgrounds')
+install=$pkgname.install
+source=("http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz")
+sha512sums=('cfd5760a0e832ef02786a29cb744d4932aeee97c4d6992b430e647bd59aaef1042735203824d0eaf9da9b884dcdadcfb8f5acea221638db91438ae46a6ee42bf')
+
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+
+  make DESTDIR=$pkgdir install desktop-install
+}

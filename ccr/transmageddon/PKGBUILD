@@ -1,0 +1,33 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Neo Kolokotronis <tetris4@gmail.com>
+# Contributor: Marcos Heredia <chelqo@gmail.com>
+
+pkgname=transmageddon
+pkgver=1.0
+pkgrel=2
+pkgdesc="Transmageddon is a video transcoder for Linux and Unix systems built using GStreamer"
+arch=('any')
+url="http://www.linuxrising.org/"
+license=('LGPL')
+depends=('python2-gobject' 'libnotify' 'gtk3' 'gst-plugins-base')
+makedepends=('intltool')
+optdepends=('gst-plugins-good: Extra media codecs'
+            'gst-plugins-bad: Extra media codecs'
+            'gst-plugins-ugly: Extra media codecs'
+            'gst-libav: Extra media codecs'
+            'gst-vaapi: Hardware accelerated video encode')
+source=("http://www.linuxrising.org/files/$pkgname-$pkgver.tar.xz")
+sha512sums=('9a50a01c39d89cbbd790063e2afc831975baf5f2edb1fa4f50955120e9ef466b4ba4e4ab0bdb081ced1f024b66db74b72bc57dcef7d5fc99d99b09aeca525be8')
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+  make
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+
+  make DESTDIR=$pkgdir install
+}

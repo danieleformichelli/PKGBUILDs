@@ -1,0 +1,27 @@
+# Maintainer: Guillaume ALAUX <guillaume@archlinux.org>
+
+pkgname=java-commons-daemon
+pkgver=1.0.15
+pkgrel=1
+pkgdesc='Alternative invocation mechanism for unix-daemon-like java code'
+depends=('java-runtime')
+arch=('x86_64')
+url='http://commons.apache.org/daemon/'
+license=('APACHE')
+_libname=commons-daemon
+source=("http://archive.apache.org/dist/commons/daemon/source/$_libname-$pkgver-src.tar.gz")
+sha512sums=('f20cc8796978fb09b6ecc8d99bb3c8b271b097d74c1f99b286cde213631e7f50a4104f5db2c354f9624ba8b037502d81e327c581b38253b9b216aa2172016e40')
+makedepends=('apache-ant' 'docbook2x' 'docbook-xsl')
+
+build() {
+  cd $srcdir/$_libname-$pkgver-src
+  . /etc/profile.d/jdk.sh
+  ant
+}
+
+package() {
+  cd $srcdir/$_libname-$pkgver-src
+
+  install -Dm755 dist/$_libname-$pkgver.jar $pkgdir/usr/share/java/$_libname-$pkgver.jar
+  ln -s $_libname-$pkgver.jar $pkgdir/usr/share/java/$_libname.jar
+}

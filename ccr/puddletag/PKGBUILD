@@ -1,0 +1,31 @@
+# Maintainer:   danyf90 <daniele.formichelli@gmail.com>
+# Contributors: rudefyet <matt@freedomwarepc.com>
+# Contributors: Farhad Shahbazi <farhad@enthusiasm.cc>,Lucky <archlinux@builds.lucky.li>
+
+pkgname=puddletag
+pkgver=1.0.2
+pkgrel=1
+pkgdesc="An audio tag editor for GNU/Linux (like Mp3tag)"
+url="http://puddletag.sourceforge.net"
+license=("GPL")
+arch=("i686" "x86_64")
+depends=("python-configobj>=4.5.0" "python2-musicbrainz2>=0.6.0"
+"python2>=2.6" "pyqt>=4.5" "python2-pyparsing>=1.5.1" "mutagen>=1.14")
+optdepends=("python-imaging: edit/view FLAC cover art"
+            "quodlibet: edit a QuodLibet library")
+source=("http://downloads.sourceforge.net/project/$pkgname/$pkgname-$pkgver.tar.gz")
+sha512sums=('bd48c85be143eba23688afd308e2abc721fe1527f59672a8b117a9513f720a02a24e1c5c3304f5ca453e78508cdf0c017ecf6f2aa1df00a3e8f0af9c268fc414')
+screenshot="http://puddletag.sourceforge.net/_images/5.png"
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+
+  python2 setup.py config
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+
+  python2 setup.py install --prefix=$pkgdir/usr --optimize=1
+}
+

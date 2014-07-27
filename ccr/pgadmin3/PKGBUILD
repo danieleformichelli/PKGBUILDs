@@ -1,0 +1,36 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Phil Miller <philm[at]chakra-project[dot]org
+
+pkgname=pgadmin3
+pkgver=1.18.1
+pkgrel=1
+pkgdesc="A comprehensive design and management interface for PostgreSQL database"
+arch=('x86_64')
+url="http://www.pgadmin.org"
+license=('custom')
+depends=('wxgtk' 'postgresql-libs>=8.4.1' 'libxslt')
+makedepends=('libpqxx')
+source=("http://ftp.postgresql.org/pub/pgadmin3/release/v$pkgver/src/pgadmin3-$pkgver.tar.gz"
+        "$pkgname.desktop")
+sha512sums=('e292aaf95159eda98fe5f5112aad758cc08c38fe325ef92c698009defeb3891d9e0d485c00a0cbb82b70a95f54755eeb7f90b82a34354e77b485f738b5458c99'
+            'a9b78e5a9016ab7f42c638e45bfa3c4f333250d54ac65992950c26f2f8f56564fd1a509ef488e487e7f1d54a5bef5a726f980928040cc7b1220bef38f90c5815')
+
+build() {
+  cd $srcdir
+  convert pgadmin3-$pkgver/pgadmin/include/images/pgAdmin3.ico pgadmin3.png
+
+  cd pgadmin3-$pkgver
+  [ -f Makefile ] || ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd $srcdir/pgadmin3-$pkgver
+
+  make DESTDIR=$pkgdir/ install
+  install -Dm644 i18n/$pkgname.lng $pkgdir/usr/share/pgadmin3/i18n
+  install -Dm644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
+  install -Dm644 pgadmin/include/images/pgAdmin3.ico $pkgdir/usr/share/pgadmin3/pgAdmin3.ico
+  install -Dm644 $srcdir/pgadmin3-3.png $pkgdir/usr/share/pgadmin3/pgAdmin3.png
+  install -Dm644 pkg/pgadmin3.desktop $pkgdir/usr/share/applications/pgadmin3.desktop
+}

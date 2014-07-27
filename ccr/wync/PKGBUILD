@@ -1,0 +1,29 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: stef312 <stef312_at_gmail_dot_com>
+
+pkgname=wync
+pkgver=2.0.23
+pkgrel=1
+pkgdesc="Microsoft Lync client for Linux"
+arch=('x86_64')
+license=('custom:"Copyright (c) 2011 Fisil LLC"')
+url="http://fisil.com/products.html"
+options=('!strip' 'staticlibs')
+source=("http://fisil.com/linux/Wync_Ubuntu64.deb")
+sha512sums=('9d3b4f811232330410c2da82a829edd3f4748b998df887600f0febfda5082d394218c74271716f0cb0d66ddd31d69945147912bb1f6df0ff4de86c5e331ea02a');
+
+package() {
+  cd $srcdir
+
+  ar x Wync_Ubuntu64.deb > /dev/null
+  tar -xzf data.tar.gz -C $pkgdir
+
+  # Clean
+  find $pkgdir -type f -name '*~' -delete
+  rm -rf $pkgdir/etc
+  rm -rf $pkgdir/usr/bin
+
+  # Rights
+  chmod -R 755 $pkgdir/opt
+  chmod -R 755 $pkgdir/usr
+}

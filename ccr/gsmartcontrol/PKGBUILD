@@ -1,0 +1,25 @@
+# Mantainer:  danyf90 <daniele.formichelli@gmail.com>
+
+pkgname=gsmartcontrol
+pkgver=0.8.7
+pkgrel=1
+pkgdesc="Hard disk drive health inspection tool"
+arch=('x86_64')
+url="http://gsmartcontrol.berlios.de/home/index.php/en/Home"
+depends=('pcre' 'smartmontools' 'gtk2' 'gtkmm' 'libglademm')
+license=('GPL')
+source=("http://download.berlios.de/gsmartcontrol/gsmartcontrol-$pkgver.tar.bz2")
+sha512sums=('3258ddcb448460afeef8d617ab5bb4720c9b2444452bc45d6798ec645da4862236fbb3fe0116a1cc904f5353481df87603bd2b6d808f348c250bde3624c8403a')
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+
+  make DESTDIR=$pkgdir install
+}

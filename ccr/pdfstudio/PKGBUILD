@@ -1,0 +1,38 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Jesse Spangenberger <azulephoenix@gmail.com>
+
+pkgname=pdfstudio
+_pkgname=PDFStudio
+pkgver=8.3.2
+mainver=8
+_pkgver=8_3_2
+pkgrel=2
+pkgdesc="Review, annotate, and edit PDF Documents"
+arch=('x86_64')
+url="http://www.qoppa.com/pdfstudio/"
+license=('Commerical')
+depends=('java-runtime')
+install=$pkgname.install
+source=("http://www.qoppa.com/files/$pkgname/demo/downloads/version$mainver/${_pkgname}_v${_pkgver}_linux64.deb"
+        "$pkgname.desktop"
+        "$pkgname.install"
+        "$pkgname.png")
+sha512sums=('320ad32badc7cdb3af63f61b71dde5129f594ec0f449eb2f84d511b9b1eadceb21ecf7482235b1d1086b705d48e9c3f64590c85884e20f5416d60edb65771170'
+            '04f92c256c8d6bb8ff65ed31994fba151cb1d674e80ce30aa21a99c2a04510c04b90d0bcf2d35b978289f26b2022960b912aec35a272bdefbc98b9a3024af53d'
+            '264d685a81521e6422795680ed24b752b3debf2b8d971a7823cc604001e35e4b8bb27cdd39afaab74d323dd1bcb4bf61e6bc522f53510081d3450e95958e8d5b'
+            '8a54d25ca520e86e20fdccddea0c5da3b7ba6c057be260ba6a3dce707aa7ad9a9bd49cca143a1431625b2b8e0dfd6e2ebcea9a43508712b54cc77a5772f84b62')
+
+package() {
+  cd $srcdir
+
+  ar x ${_pkgname}_v${_pkgver}_linux64.deb
+  tar xzf data.tar.gz -C $pkgdir
+
+  rm -r $pkgdir/opt/pdfstudio$mainver/jre
+
+  install -Dm644 $pkgname.desktop $pkgdir/usr/share/applications/$pkgname.desktop
+  install -Dm644 $pkgname.png $pkgdir/usr/share/pixmaps/$pkgname.png
+
+  install -d $pkgdir/usr/bin
+  ln -s /opt/pdfstudio$mainver/pdfstudio$mainver $pkgdir/usr/bin/pdfstudio$mainver
+}

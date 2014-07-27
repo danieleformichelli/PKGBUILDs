@@ -1,0 +1,42 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Guillaume ALAUX <guillaume@archlinux.org>
+# Contributor: Jan de Groot <jgc@archlinux.org>
+# Contributor: Allan McRae <allan@archlinux.org>
+
+pkgname=eclipse-ecj
+pkgver=4.4
+pkgrel=1
+_date=201406061215
+pkgdesc='Eclipse java bytecode compiler'
+arch=('any')
+license=('EPL')
+url='http://www.eclipse.org/'
+depends=('java-runtime')
+makedepends=('apache-ant' 'java-environment')
+source=("http://download.eclipse.org/eclipse/downloads/drops4/R-$pkgver-$_date/ecjsrc-$pkgver.jar"
+        "01-ecj-include-props.patch"
+        "02-buildxml-fix-manifest.patch"
+        "ecj")
+sha512sums=('8b00d4a55631d120244f58efdf8317a8329b31e7644a7d2d60d7fc9d609332eb8c0478774f041a132fa8a3ef93a7aef23a5e675df43508da79f28868a403ef2e'
+            '72c8a2437333e8068e60e1a035bf4e5e9b66881fc06936600a6867dc7e4eb4670f94c4b2392634ebb28f85f8fdf88248ccb9cc315717e257ce336b495c2f2d68'
+            '9a6ddf07ce8300df540e1c4df66029b853f0bf3049d6a513c8695a611ed16512e8b8b6e442dc30e79e23aec81856bec6ae605c38c4452c2b88404b0bb715443c'
+            '420c6e0052af318c8bf580de2342ac5d251aa6dc02347ac5bba056318e3e84cc4bf03a60c89b9592f1a84204c880562dd3152ed460a569e71562389bcab34354')
+
+build() {
+  cd $srcdir
+
+    patch -p0 < 01-ecj-include-props.patch
+    patch -p0 < 02-buildxml-fix-manifest.patch
+
+  ant build
+}
+
+package() {
+  cd $srcdir
+
+  install -Dm644 $srcdir/ecj.jar $pkgdir/usr/share/java/eclipse-ecj-$pkgver.jar
+  ln -s eclipse-ecj-$pkgver.jar $pkgdir/usr/share/java/ecj.jar
+  ln -s eclipse-ecj-$pkgver.jar $pkgdir/usr/share/java/eclipse-ecj.jar
+  install -Dm755 ecj $pkgdir/usr/bin/ecj
+  install -Dm644 ecj.1 $pkgdir/usr/share/man/man1/ecj.1
+}

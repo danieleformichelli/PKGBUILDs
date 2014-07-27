@@ -1,0 +1,42 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Kozec <kozec at kozec dot com>
+
+pkgname=realvnc
+pkgver=5.1.0
+pkgrel=1
+pkgdesc="RealVNC provides remote control software which lets you see and interact with desktop applications across any network."
+arch=('x86_64')
+url="http://www.realvnc.com"
+license=('custom')
+install="realvnc.install"
+conflicts=('vnc' 'tightvnc' 'tigervnc' 'xf4vnc-xvnc')
+provides=("vnc=$pkgver")
+source=("install.diff"
+        "vncinitconfig.diff"
+        "VNC-$pkgver-Linux-x64-ANY.tar.gz::http://www.realvnc.com/download/binary/1370")
+sha512sums=('88a4e6c139c66a80dc469fbf8cfe4775b983fe83669f7f5b38842b59c265d35a825838d6d951e3e424318a572f10dab6b55fb53540935a1808805a8a14a2cb40'
+            '4dc36b936baa08cca1516949c88bb5cd9c443d64eab71e455f130ad8b0ac5f1e29497c8bd22829467f6795b56202f62a18e5ee5da5d63e92f439bd047c7ef4b9'
+            'c57628618c3309abf2ded334578a98e9e3db12d6f28fd34838c73a11373eb4c097f2c3c5c89cb63820ee35c28929b0b825ab8a4b1bbd90da146b1ef6da012cf2')
+
+build() {
+  cd $srcdir/VNC-$pkgver-Linux-x64
+
+  install -m777 vncinstall vncinstall.arch
+  patch -Np0 -i $srcdir/install.diff vncinstall.arch
+
+  install -m777 vncinitconfig vncinitconfig.arch
+  patch -Np0 -i $srcdir/vncinitconfig.diff vncinitconfig.arch
+}
+
+package() {
+  cd $srcdir/VNC-$pkgver-Linux-x64
+
+  install -d $pkgdir/usr/{bin,etc/vnc,share/{man/man1,cups}}
+  ./vncinstall.arch $pkgdir
+  ./vncinitconfig.arch $pkgdir -config
+
+  rm $pkgdir/etc/vnc/get_primary_ip4
+  rm $pkgdir/etc/vnc/vncelevate
+  ln -s /usr/lib/vnc/get_primary_ip4 $pkgdir/etc/vnc/get_primary_ip4
+  ln -s /usr/lib/vnc/vncelevate $pkgdir/etc/vnc/vncelevate
+}

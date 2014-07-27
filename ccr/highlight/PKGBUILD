@@ -1,0 +1,28 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Florian Pritz <flo@xinu.at>
+# Contributor: Jan Fader <jan.fader@web.de>
+
+pkgname=highlight
+pkgver=3.17
+pkgrel=1
+pkgdesc="Fast and flexible source code highlighter."
+url="http://www.andre-simon.de/doku/highlight/highlight.html"
+license=('GPL')
+arch=('x86_64')
+makedepends=('boost' 'lua' 'qt')
+source=("http://www.andre-simon.de/zip/$pkgname-$pkgver.tar.bz2")
+sha512sums=('27d5391339e80b616146489e97f63bca336f18b26c2ff5b94ae5bf183d3d1cdbfba202ab36d8eac86dee98ff49c6cc6c41dcf31860f0277f0327688e622d954e')
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+
+  make QMAKE=qmake
+  make QMAKE=qmake-qt4 gui
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+
+  make DESTDIR=$pkgdir QMAKE=qmake-qt4 install
+  make DESTDIR=$pkgdir QMAKE=qmake-qt4 install-gui
+}

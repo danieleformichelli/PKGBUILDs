@@ -1,0 +1,20 @@
+# Maintainer: danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Sfincs <sfincs120 at gmail dot com>
+
+pkgname=kde-plasma-theme-unity-ambiance
+_themename=UnityAmbiance
+pkgver=1.7
+pkgrel=1
+pkgdesc="Ubuntu Ambiance theme for KDE"
+arch=('any')
+url="http://kde-look.org/content/show.php/Unity+Ambiance?content=159937"
+license=('GPL')
+depends=('kde-workspace')
+source=("http://kde-look.org/CONTENT/content-files/159937-$_themename.tar.gz")
+sha512sums=('6362ddac4f471c0f3e3c6db9a528bf359a7302eb18fee736e74733bf4284257d221fd492a2fbae7ada608182a052d7cc09d2a7c2ad7494a75d2721804134d1b7')
+
+package() {
+  install -d $pkgdir/usr/share/apps/desktoptheme
+  cp -r $_themename $pkgdir/usr/share/apps/desktoptheme
+  chmod -R 755 $pkgdir/usr/share/apps/desktoptheme/$_themename
+}

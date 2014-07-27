@@ -1,0 +1,30 @@
+# Maintainer: danyf90 <daniele.formichelli@gmail.com>
+# Contributor: carstene1ns <url/mail: arch carsten-teibes de>
+
+pkgname=jeex
+pkgver=12.6.1
+pkgrel=1
+pkgdesc="GTK+ Hex Editor"
+arch=('x86_64')
+url="http://www.hds619.net/index.php?ref=projects&sub=jeex"
+license=('GPL3')
+depends=('gtk2' 'file')
+source=("http://www.hds619.net/data/jeex/jeex-pkg/jeex-$pkgver.tar.bz2")
+sha512sums=('e5214934b1f1d567f83759714338c62fbdb01687a630b1463fbc4c4f0bebdf768733968ac11eee7ca1bff7dae692d0036d5c70c15c7ae83720bf8cc303787450')
+
+build() {
+  cd jeex-${pkgver%.1}
+
+  ./configure --prefix=/usr --sysconfdir=/etc
+  make
+}
+
+package() {
+  cd jeex-${pkgver%.1}
+
+  make DESTDIR=$pkgdir install
+
+  # fix directories
+  mv $pkgdir/usr/share/jeex/applications $pkgdir/usr/share
+  mv $pkgdir/usr/share/jeex/icons $pkgdir/usr/share/pixmaps
+}

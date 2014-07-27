@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Briss
+Comment=PDF cropping tool
+Exec=$pkgname
+Icon=/usr/share/briss/$pkgname-icon.png
+Terminal=false
+Categories=Graphics;Viewer;2DGraphics;RasterGraphics;

@@ -1,0 +1,39 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Giovanni Scafora <giovanni@archlinux.org>
+# Contributor: dorphell <dorphell@archlinux.org>
+
+pkgname=tcpdump
+pkgver=4.5.1
+pkgrel=1
+pkgdesc="A tool for network monitoring and data acquisition"
+arch=('x86_64')
+url="http://www.tcpdump.org"
+license=('BSD')
+depends=('libpcap' 'openssl')
+source=("http://www.tcpdump.org/release/$pkgname-$pkgver.tar.gz"
+        "tcpdump_duplicate_executable.patch")
+sha512sums=('c4d739e68a4d54f184c9b3e21fed95f327e4070dc0f3ddb35890b93b809de424c0a9a313353fb97e49aaf5425ba8d13e30c3e93610716dcc83466aa836c701d6'
+            '47836a5e144e8e087aa58987f821f92bac2a6c58d29990b28ab33b7082cd476fa98473801d32cca1f1c27415a9a7552e7125809dece12597dc6ddd13a02d1ed9')
+
+prepare() {
+  cd $srcdir/$pkgname-$pkgver
+
+  # do not install tcpdump-4.1.1 executable (FS#23346)
+  patch -Np1 -i $srcdir/tcpdump_duplicate_executable.patch
+}
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+
+  ./configure --prefix=/usr --sbindir=/usr/bin --enable-ipv6
+  make
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+
+  make DESTDIR=$pkgdir install
+
+  #install the license
+  install -D -m644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
+}

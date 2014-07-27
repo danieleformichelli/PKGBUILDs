@@ -1,0 +1,25 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+
+pkgname=flickcurl
+pkgver=1.25
+pkgrel=1
+pkgdesc="C library for the Flickr API"
+arch=('x86_64')
+url="http://librdf.org/flickcurl/"
+license=('GPL')
+depends=('raptor' 'curl')
+source=("http://download.dajobe.org/flickcurl/flickcurl-$pkgver.tar.gz")
+sha512sums=('51a449f52ba780cf6dd914e249012e338865af3a10a63c1c1efd611d0064acd117f9e8a8cc63edba93c3ce81b52c1c5586df52079644dc717be591542ad9dd7f')
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+  sed -i 's|#include <curl/types.h>||' src/flickcurl_internal.h
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+  make DESTDIR=$pkgdir install
+}

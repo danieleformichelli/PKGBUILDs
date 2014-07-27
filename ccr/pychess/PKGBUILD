@@ -1,0 +1,25 @@
+# Mantainer: danyf90 <daniele.formichelli@gmail.com>
+
+pkgname=pychess
+pkgver=0.10.1
+pkgrel=2
+pkgdesc="A chess game (pygtk)"
+arch=('x86_64')
+url="http://code.google.com/p/pychess/"
+license=('GPL')
+depends=('python-pysqlite' 'gnome-icon-theme' 'pygtksourceview2' 'gstreamer0.10-python' 'python-rsvg')
+optdepends=('gstreamer0-10-base-plugins')
+provides=('pychess')
+conflicts=('pychess')
+source=("https://pychess.googlecode.com/files/pychess-$pkgver.tar.gz")
+sha512sums=("ee1893071823b3d41ecdb1ef314fb8ba")
+
+package() {
+  cd $srcdir
+
+  install -d $pkgdir/{opt,usr/{bin,share/application}}
+  mv $srcdir/$pkgname-$pkgver $pkgdir/opt
+  mv $pkgdir/opt/pychess-$pkgver/pychess.desktop $pkgdir/usr/share/applications
+  echo "PYTHONPATH=/opt/pychess-0.10.1/lib/ /opt/pychess-$pkgver/pychess" > $pkgdir/usr/bin/pychess
+  chmod a+x $pkgdir/usr/bin/pychess
+}

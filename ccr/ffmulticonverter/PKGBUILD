@@ -1,0 +1,21 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Panagiotis Mavrogiorgos (pmav99) <> (gmail)
+
+pkgname=ffmulticonverter
+pkgver=1.6.0
+pkgrel=1
+pkgdesc="FF Multi Converter is a GUI application that converts multiple file formats to different extensions"
+arch=('x86_64')
+url="https://sites.google.com/site/ffmulticonverter/"
+license=('GPL')
+depends=('python2' 'pyqt4-python2')
+options=(!emptydirs)
+source=("https://downloads.sourceforge.net/project/ffmulticonv/$pkgname-$pkgver.tar.gz")
+sha512sums=('2fa81a83ef0258bc895853fb3e460b4bc7bf2194b9f5b42e53743b931bcea18d67a0319c187487758b76abbfe2e924648ce2184746bef94578ed88e03bae0232')
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+
+  # Install using setup.py
+  python2 setup.py install --root=${pkgdir}/ --optimize=1
+}

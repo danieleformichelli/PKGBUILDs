@@ -1,0 +1,42 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Simon Legner <Simon.Legner@gmail.com>
+# Contributor: Chris Molozian (novabyte) <chris DOT molozian AT gmail DOT com>
+# Contributor: Sanjuro Makabe (itti) <vuck AT gmx DOT de>
+
+pkgname=gradle
+pkgver=1.11
+pkgrel=1
+pkgdesc="A powerful build system for the JVM"
+arch=('any')
+url="http://www.gradle.org/"
+license=('APACHE')
+depends=('java-environment')
+source=("http://services.gradle.org/distributions/$pkgname-$pkgver-bin.zip"
+        "gradle.sh")
+sha512sums=('3421c7726537967d07d25d23b0a0a8b8485ac4ec5168da251b61176037fbd30418e3cac9258b0aad46a3eacd88c81b6362bd276e976d184a024409bdf1b6fdd8'
+            '07fc1bcacb55ca3304eaf430d8c9dec4e624fe976212ad6bc663cc9412421911b94f6a9823c020e985755f50f6b83baf424cc08de7afba89c097fbabb753c9fc')
+
+package(){
+  cd $srcdir
+
+  install -Dm755 $srcdir/$pkgname.sh $pkgdir/etc/profile.d/$pkgname.sh
+
+  install -d $pkgdir/usr/{bin,share/java/$pkgname/{bin,lib/plugins,init.d}}
+
+  cd $pkgname-$pkgver
+  # copy across jar files
+  install -Dm644 lib/*.jar $pkgdir/usr/share/java/$pkgname/lib
+  install -Dm644 lib/plugins/*.jar $pkgdir/usr/share/java/$pkgname/lib/plugins
+
+  # copy across supporting text documentation and scripts
+  install -m644 NOTICE $pkgdir/usr/share/java/$pkgname
+  install -m644 LICENSE $pkgdir/usr/share/java/$pkgname
+  install -m644 *.txt $pkgdir/usr/share/java/$pkgname
+  install -m644 *.html $pkgdir/usr/share/java/$pkgname
+  install -m755 bin/gradle $pkgdir/usr/share/java/$pkgname/bin
+  install -m644 init.d/*.* $pkgdir/usr/share/java/$pkgname/init.d
+
+  # link gradle script to /usr/bin
+  ln -s /usr/share/java/$pkgname/bin/$pkgname $pkgdir/usr/bin
+}
+

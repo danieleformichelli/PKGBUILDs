@@ -1,0 +1,82 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Christian Hesse <mail@eworm.de>
+# Contributor: Alexandre Boily <alexandreboily@gmail.com>
+# Contributor: Illarion Kovalchuk <illarion.kovalchuk@gmail.com>
+# Contributor: totoloco <totoloco at gmail _dot_com>
+# Contributor: Ionut Biru <ibiru@archlinux.org>
+
+pkgname=mysql-workbench
+pkgver=6.1.6
+pkgrel=1
+pkgdesc="A cross-platform, visual database design tool developed by MySQL"
+arch=('i686' 'x86_64')
+url="https://www.mysql.com/products/workbench/"
+license=('GPL2')
+depends=('python2' 'libzip' 'libmariadbclient' 'lua' 'gtkmm' 'ctemplate'
+	 'libgnome-keyring' 'libgl' 'python2-paramiko' 'python2-pexpect'
+	 'pcre' 'tinyxml' 'libxml2' 'mysql-python' 'python2-pysqlite' 'cairo'
+         'python-cairo' 'hicolor-icon-theme' 'desktop-file-utils' 'libiodbc'
+	 'mysql-connector-c++' 'vsqlite++' 'unixodbc' 'freetype2' 'libantlr3c')
+optdepends=('python2-pyodbc: database migration')
+makedepends=('cmake' 'boost' 'curl' 'mesa' 'imagemagick' 'swig')
+install=$pkgname.install
+source=("http://cdn.mysql.com/Downloads/MySQLGUITools/$pkgname-community-$pkgver-src.tar.gz"{,.asc}
+	'mysql-workbench-ctemplate.patch'
+	'mysql-workbench-mariadb-10.patch'
+	'mysql-workbench-no-check-for-updates.patch'
+	'arch_linux_profile.xml')
+
+sha512sums=('d2955756997b3e8121f0da095ca057407337d0c0257f94ae9b096b95996d260f569f473ffb35a68908649cdc20ca4b3438b3a4b1fabd1b1cd0bb365b3b076c3f'
+            'SKIP'
+            '87bdb1eea3aaf7dd7055e8651fa36a707394be2acff93571147b7d6d4896994da479f7d7ff14f9b06fbe389a5f58a4e1ea97fc8ab8959a58f6dac7662e197607'
+            '9c1321c9a90994b0f91b68326a29af10e6ca781741bf19dc846ac032bc707f2dabb6d95250e287b846dafd05ac4c38b122b56d9ce2f9a5061fdaa6af983ab6ea'
+            'f6cdb0e37e59567f2bd3ccc3ceb03413e232c105c915d94fdf96f4b3df9790781284572246b058e9cf4c5ef08e5b54559cea2d0b2ebb1d66fdb1ff92db7fb072'
+            '2643779b89f262a700c474b617d4fe84f2d08b85782a0a76dc30952a3b0704ad45eb515644a61a1177222cdcd064b9c1607694d54adcddf4bd611020f6973e92')
+
+prepare() {
+	cd $srcdir/$pkgname-community-$pkgver-src
+
+	# Disable 'Help' -> 'Check for Updates'
+	patch -Np1 < $srcdir/mysql-workbench-no-check-for-updates.patch
+
+	# fix deprecated calls to tpl->ReloadIfChanged
+	# http://bugs.mysql.com/72585
+	patch -Np1 < $srcdir/mysql-workbench-ctemplate.patch
+
+	# fix compilation with Mariadb
+	patch -Np1 < $srcdir/mysql-workbench-mariadb-10.patch
+}
+
+build() {
+	cd $srcdir/$pkgname-community-$pkgver-src
+
+	cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr .
+
+	# fix path to lua include files
+	# is this a bug by cmake? (/usr/share/cmake-2.8/Modules/FindLua51.cmake)
+	sed -i '/^LUA_INCLUDE_DIR:PATH=/c LUA_INCLUDE_DIR:PATH=/usr/include/lua5.1' CMakeCache.txt
+
+	# fix detection of Python
+	sed -i 's|python3.3m|python2.7|' CMakeCache.txt
+
+	make
+}
+
+package() {
+	cd $srcdir/$pkgname-community-$pkgver-src
+
+	make DESTDIR=$pkgdir install
+
+	# generate icons
+	for SIZE in 16 24 32 48 64 96 128 160 192 256 384 512; do
+		if [ ! -s images/icons/MySQLWorkbench-${SIZE}.png ]; then
+			convert -scale ${SIZE} \
+				images/icons/MySQLWorkbench-512.png \
+				images/icons/MySQLWorkbench-${SIZE}.png
+		fi
+		install -D -m0644 images/icons/MySQLWorkbench-$SIZE.png \
+			$pkgdir/usr/share/icons/hicolor/${SIZE}x${SIZE}/apps/mysql-workbench.png
+	done
+
+	install -D -m 0644 $srcdir/arch_linux_profile.xml $pkgdir/usr/share/mysql-workbench/mysql.profiles/Arch_Linux_\(MariaDB_5.5_Package\).xml
+}

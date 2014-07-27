@@ -1,0 +1,29 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Pafrape <pafrape@free.fr
+
+pkgname=kfoldersync
+pkgver=2.4.0
+pkgrel=1
+pkgdesc="Folder synchronization tool"
+arch=('x86_64')
+url="http://kde-apps.org/content/show.php/KFolderSync?content=164092"
+depends=('kde-runtime')
+makedepends=('automoc4' 'cmake' 'gettext' 'kdelibs')
+license=('GPLv2')
+install=$pkgname.install
+source=("http://downloads.sourceforge.net/project/kfoldersync/$pkgname-$pkgver.tar.xz")
+sha512sums=('b8aacdd046be33bc6a1b53db5c1ab2ca5ea0ae75b4533e48497705a4c6e1449e481ebb736d54049b81827e92aeb0896ec7fa206ded1eb8c92bda204da41fc00b')
+
+build() {
+  install -d $srcdir/build
+  cd $srcdir/build
+
+  CXXFLAGS="$CXXFLAGS -std=gnu++11"
+  cmake -DCMAKE_INSTALL_PREFIX=$(kde4-config --prefix) -DCMAKE_BUILD_TYPE=Release ../$pkgname-$pkgver
+  make
+}
+
+package() {
+  cd $srcdir/build
+  make DESTDIR=$pkgdir install
+}

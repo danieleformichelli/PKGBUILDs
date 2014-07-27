@@ -1,0 +1,25 @@
+# Mantainer:   danyf90 <daniele.formichelli@gmail.com>
+
+pkgname=gtkwave
+pkgver=3.3.54
+pkgrel=1
+pkgdesc="A Fully Featured GTK+ Base Wave Viewer"
+arch=('x86_64')
+url="http://gtkwave.sourceforge.net"
+depends=('gtk2' 'tk' 'tcl' 'gperf')
+license=('GPL')
+source=("http://gtkwave.sourceforge.net/gtkwave-$pkgver.tar.gz")
+sha512sums=('61c709d53a10796bb1c752c45f4b44062afbf3d1db337d910f837f5dec20f83118a8c018ea652b82fedee9f1e07813771704824079c7864e8b483624ebaa2612')
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+
+   ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --disable-mime-update
+  make
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+
+  make DESTDIR=$pkgdir install
+}

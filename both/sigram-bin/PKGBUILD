@@ -1,0 +1,42 @@
+# Maintainer:  danyf90 <daniele.formihelli@gmail.com>
+# Contributor: totoloco <totoloco@gmx.com>
+
+pkgname=sigram-bin
+_pkgname=sigram
+pkgver=0.6.2
+pkgrel=1
+pkgdesc="A different telegram client from Sialan.labs"
+arch=('i686' 'x86_64')
+url="http://labs.sialan.org/projects/sigram"
+license=('GPL')
+depends=('qt5-base' 'qt5-declarative')
+if [[ $CARCH == x86_64 ]]; then
+  filename=${_pkgname}-$pkgver-linux-x64-installer.run
+  source=("http://dl.labs.sialan.org/$filename")
+  sha512sums=('e97625a32e6b40d7c98ca1c9dbcd3a78a9a00a07133c9f89967875718683b4833052c1417c427acddfc999009e092ea27ce1c427ab492ae8215971201d6c2f20')
+else
+  filename=${_pkgname}-$pkgver-linux-installer.run
+  source=("http://dl.labs.sialan.org/$filename")
+  sha512sums=('e97625a32e6b40d7c98ca1c9dbcd3a78a9a00a07133c9f89967875718683b4833052c1417c427acddfc999009e092ea27ce1c427ab492ae8215971201d6c2f20')
+fi
+
+source+=("$_pkgname.desktop")
+sha512sums+=('364a3cfd82f8e12ba7117f67c2d3ab6bf32bb8a16f997742b1a5955263536095aeac59e19f3161bf266228d9b164dafbb7a30c9dc7221bdb89dbefa96b43a519')
+
+package() {
+  cd $srcdir
+
+  install -d $pkgdir/{opt,usr/bin}
+
+  ./$filename --prefix $pkgdir/opt --mode unattended
+
+  rm $pkgdir/opt/uninstall
+  rm $pkgdir/opt/Uninstall\ Sigram.desktop
+  rm $pkgdir/opt/uninstall.dat
+
+  install -Dm644 $srcdir/$_pkgname.desktop $pkgdir/usr/share/applications/$_pkgname.desktop
+
+
+  # fix undefined symbol: EVP_idea_cbc error
+  ln -sf /usr/lib/libcrypto.so.1.0.0 $pkgdir/opt/$_pkgname/libs/libcrypto.so.1.0.0
+}

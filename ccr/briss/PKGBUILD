@@ -1,0 +1,33 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: chungalitos <chungalitos at gmail dot com>
+# Contributor: frabjous <klement at philos dot umass edu>
+
+pkgname=briss
+pkgver=0.9
+pkgrel=2
+pkgdesc="Java tool to crop pages of PDF documents to one or more regions selected with a GUI."
+arch=('any')
+url="http://sourceforge.net/projects/briss/"
+license=('GPL')
+depends=('java-runtime')
+makedepends=('fastjar' 'imagemagick')
+screenshot="http://sourceforge.net/projects/briss/screenshots/262668"
+source=("http://download.sourceforge.net/briss/briss-$pkgver.tar.gz"
+        "briss"
+        "briss.desktop")
+sha512sums=('e3aa0d98ad4475081443ff3d7733243c6f297c4db485c3d7e37e3cee2b40977ae63d31c8952c6bb7d3009fd0cf8a2b0894f46d7eda68e8a43d39e91747658628'
+            '8280d372f14c679529bad6b47d107ead748142b748a11a2f51e954f861bbff07d1941080d3fd334e513fd6295705fc3d2a96cb0ba9dd56edad4e3e95199a613c'
+            '895322b266083f6fe4b23c268a19b87433e1ff39f433773c1eed12d49059a5d5ef51288b544da3f11e03c75b81b630c6e6e7725af3962f41f426c95453585c4d')
+
+package() {
+  cd $srcdir
+
+  install -D briss $pkgdir/usr/bin/briss
+  install -D briss.desktop $pkgdir/usr/share/applications/briss.desktop
+
+  cd $srcdir/briss-$pkgver
+  install -d $pkgdir/usr/share/briss
+  fastjar xf briss-$pkgver.jar Briss_icon_032x032.gif
+  convert Briss_icon_032x032.gif briss-icon.png
+  cp * $pkgdir/usr/share/briss/
+}

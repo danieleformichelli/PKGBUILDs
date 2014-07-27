@@ -1,0 +1,28 @@
+#Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+#Contributor: DaZ <daz.root+arch@gmail.com>
+#Contributor: andy123 < ajs AT online DOT de >
+
+pkgname=qtweb
+_pkgbuild=108
+pkgver=3.8.5.$_pkgbuild
+pkgrel=1
+pkgdesc="lightweight, secure and portable browser based on qt and webkit"
+arch=('x86_64')
+url=('http://qtweb.net')
+license=('GPL')
+depends=('qtwebkit')
+source=("https://github.com/magist3r/QtWeb/archive/b$_pkgbuild.tar.gz")
+sha512sums=('7bb2f1760e41b91c65185cce2ce7cde639262d7b04256d766bb128a19046c97c645fab329676faa88a66407e1b551f914267dadb0e4f5f6c6f6d8ff9aedc8e46')
+
+build(){
+  cd $srcdir/QtWeb-b$_pkgbuild
+
+  qmake
+  make
+}
+
+package(){
+  cd $srcdir
+
+  install -D $srcdir/QtWeb-b$_pkgbuild/build/QtWeb $pkgdir/usr/bin/$pkgname
+}

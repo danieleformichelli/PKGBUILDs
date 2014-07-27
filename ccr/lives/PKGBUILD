@@ -1,0 +1,31 @@
+# Mantainer:   danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Adrián Chaves Fernández (Gallaecio) <adriyetichaves[at]gmail[dot]com>
+
+pkgname=lives
+pkgver=2.2.2
+pkgrel=1
+pkgdesc="A Video Editing System with Jack support."
+arch=('x86_64')
+url="http://lives.sourceforge.net"
+license=('GPL')
+depends=('mplayer' 'imagemagick' 'gtk2' 'sox' 'libvisual' 'liboil' 'libavc1394' 'mjpegtools' 'python' 'ffmpeg'  'ffmpeg-compat' 'jack' 'fftw')
+optdepends=('xorg-utils' 'sdl' 'mjpegtools' 'libogg' 'libdv' 'mkvtoolnix' 'libmatroska' 'ogmtools' 'dvgrab' 'libraw1394' 'cdrkit' 'lame' 'youtube-dl')
+options=(!libtool)
+source=("http://www.xs4all.nl/%7Esalsaman/$pkgname/current/LiVES-$pkgver.tar.bz2")
+sha512sums=('98436e75ccb703e784a00529eaefbe854ee7a437fac61cb84491ef6806dc1557cad0015018a60b06c44e0a3ad7c176779515d9d4bf3579d37326bf4cbb27be98')
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+
+  # /bin/touch -> /usr/bin/touch
+  find -type f -exec sed -i 's:/bin/touch:/usr&:g' {} \;
+  ./configure --prefix=/usr
+  make
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+  make DESTDIR=$pkgdir install
+  rm $pkgdir/usr/bin/lives
+  ln -s $pkgdir/usr/bin/lives-exe $pkgdir/usr/bin/lives
+}

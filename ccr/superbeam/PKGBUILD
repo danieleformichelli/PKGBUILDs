@@ -1,0 +1,32 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Julien Humbert <julroy67@gmail.com>
+
+pkgname=superbeam
+pkgver=1.2.0
+pkgrel=1
+pkgdesc="The easiest and fastest way to share files with Android"
+arch=('x86_64')
+url="http://superbe.am/"
+license=('custom')
+depends=('java-runtime')
+makedepends=('gendesk')
+source=("http://superbe.am/pc/all/$pkgname.jar"
+        "http://www.superbe.am/pc/linux/superbeam-linux.tar.gz")
+sha512sums=('ac78609042dd03eefacb19298ad7db54cf36a5aa6fdc0fac1e78497a9b8b88a486a02401b41aaf17595b7215df0fa9401acdd521a5f415a71404e72bdb4f0715'
+            '5fbdcc9d858f84e64e866d9781133301a50f26d0fc222ce9d03b0ed0aa07974652782f13662b3c6d9f0716167a0bfdd587cc013964968e5ac2c64233fcf7ffdd')
+
+prepare(){
+cd $srcdir
+
+  gendesk -n -f --pkgname $pkgname --categories="Network" --name="SuperBeam"
+  printf "#!/bin/sh\n\"$JAVA_HOME/bin/java\" -jar \'/usr/share/java/$pkgname/$pkgname.jar\'" > $pkgname.sh
+}
+
+package() {
+  cd $srcdir
+
+  install -Dm755 $srcdir/superbeam.sh $pkgdir/usr/bin/superbeam
+  install -Dm644 $srcdir/superbeam.jar $pkgdir/usr/share/java/superbeam/superbeam.jar
+  install -Dm644 $srcdir/$pkgname.desktop $pkgdir/usr/share/applications/$pkgname.desktop
+  install -Dm644 $srcdir/icon.png $pkgdir/usr/share/pixmaps/$pkgname.png
+}

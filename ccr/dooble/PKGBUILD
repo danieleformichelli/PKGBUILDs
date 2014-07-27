@@ -1,0 +1,52 @@
+# Maintainer: danyf90 <daniele.formichelli@gmail.com>
+
+pkgname=dooble
+pkgver=1.46
+pkgrel=1
+pkgdesc='A safe WebKit Web browser'
+url='http://dooble.sourceforge.net/'
+arch=('i386' 'x86_64')
+license=('GPL2')
+depends=('libpng' 'qt5-base' 'qt5-webkit' 'openssl')
+makedepends=('libpng' 'qt5-base' 'qt5-webkit' 'openssl' 'qt5-tools')
+source=("http://downloads.sourceforge.net/project/dooble/Version%20$pkgver/Dooble.d.tar.gz")
+sha512sums=('05022fcd2bd02c1ff188f7723abda50036e25e79d70e2f4449dcb2fe4d34549a18e9a6e1f51a715bc960c6db584658222906acf275d3324f828294a16d8b1a28')
+options=('!emptydirs')
+
+build() {
+  cd $srcdir/dooble.d/trunk/browser/
+
+  sed -i 's_-Werror__g' dooble.qt5.pro
+  qmake-qt5 -o Makefile dooble.qt5.pro
+  make distclean
+  qmake-qt5 -o Makefile dooble.qt5.pro
+  sed -i '/^INCPATH/s:=:= -I/usr/include/qt/QtWidgets:' Makefile
+  sed -i '/^INCPATH/s:=:= -I/usr/include/qt/QtWebKitWidgets:' Makefile
+  sed -i '/#include/s:QtGui/\([^>]*\)QAction:\1:' Include/*.h
+
+  make
+}
+
+package() {
+  cd $srcdir/dooble.d/trunk/browser/
+
+  make INSTALL_ROOT=$pkgdir install
+
+  # msg "Fixing file structure"
+  install -d $pkgdir/opt
+  mv $pkgdir/usr/local/dooble $pkgdir/opt
+  mv $pkgdir/usr/local/include $pkgdir/usr
+  rmdir $pkgdir/usr/local/
+
+  # msg "Editing files for the file structure modification"
+  sed -i s_'/usr/local/dooble'_'/opt/dooble'_g $pkgdir/opt/dooble/dooble.sh $pkgdir/usr/share/applications/dooble.desktop
+  sed -i s_'/usr/local/dooble/Lib\x00'_'/opt/dooble/Lib\x00\x00\x00\x00\x00\x00\x00'_g $pkgdir/opt/dooble/Dooble
+
+  mv $pkgdir/opt/dooble/dooble.sh $pkgdir/opt/dooble/dooble
+
+  # msg "Add missing files"
+  install -Dm755 libSpotOn/libspoton.so $pkgdir/opt/dooble/Lib/libspoton.so
+  install -d $pkgdir/usr/bin
+  ln -s /opt/dooble/dooble $pkgdir/usr/bin/dooble
+}
+

@@ -1,0 +1,34 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Gary Jackson <peaveyman@gdjackson.net>
+
+pkgname=atunes
+pkgver=3.1.1
+pkgrel=1
+pkgdesc="A full-featured audio player and manager"
+arch=('x86_64')
+url="http://www.atunes.org/"
+license=('GPL')
+depends=('java-environment>=6' 'mplayer' 'lib32-gcc-libs' 'lib32-libx11')
+optdepends=('cdrkit: for ripping CDs via cdda2wav'
+            'vorbis-tools: for ripping Ogg Vorbis via oggenc'
+            'lame: for ripping MP3 via lame')
+install=atunes.install
+source=("http://downloads.sourceforge.net/project/$pkgname/$pkgname/aTunes%20$pkgver/$pkgname-$pkgver-bin.tar.gz"
+        "$pkgname.desktop")
+sha512sums=('817126ea44c2b7ca8e09a55e65ba1c16eece6b0ee4407e4432d93ef588bb433863f7d2d585f293209682c3257025cd279d8e467db0a399c67f5d5c9872056806'
+            '6cd82ac3a00d26c5f92aabb0e075f3888810dbecc4e78d05edc54e179b8a1b61a21d0f570bc00ae5b958bd14f71553050e99881fed8bee2b5b60dfc8bf478033')
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+  sed -i "21 c\cd /usr/share/java/$pkgname" aTunes.sh
+  install -Dm755 aTunes.sh $pkgdir/usr/bin/$pkgname
+  install -Dm644 $pkgname.png $pkgdir/usr/share/pixmaps/$pkgname.png
+  install -Dm644 ../$pkgname.desktop $pkgdir/usr/share/applications/$pkgname.desktop
+  install -dm755 $pkgdir/usr/share/java/$pkgname/lib
+  install -m644 lib/* $pkgdir/usr/share/java/$pkgname/lib
+  install -dm755 $pkgdir/usr/share/java/$pkgname/settings
+  install -dm755 $pkgdir/usr/share/java/$pkgname/settings/spring
+  install -m644 settings/*.* $pkgdir/usr/share/java/$pkgname/settings
+  install -m644 settings/spring/*.* $pkgdir/usr/share/java/$pkgname/settings/spring
+  install -m644 *.{ico,jar,so} $pkgdir/usr/share/java/$pkgname
+}

@@ -1,0 +1,37 @@
+#Maintainer: danyf90 <daniele.formichelli@gmail.com>
+
+pkgname=android-sdk-platform-tools
+pkgver=r20
+pkgrel=1
+pkgdesc='Platform-Tools for Google Android SDK (adb, aapt, aidl, dexdump and dx)'
+arch=('x86_64')
+url="http://developer.android.com/sdk/index.html"
+license=('custom')
+depends=('lib32-gcc-libs' 'lib32-zlib' 'lib32-ncurses')
+provides=('adb')
+conflicts=('adb')
+_sdk=android-sdk
+_tools=opt/$_sdk/tools
+_ptools=opt/$_sdk/platform-tools
+source=("http://dl-ssl.google.com/android/repository/platform-tools_${pkgver}-linux.zip"
+        "adb.service"
+        "license.html")
+sha512sums=('a3ce19a0103251a15115a449c1561ef2f056efcbc3f8def338acad73a89067e33dc6a5c0bd003eee02e8c8e29c77b01832db742e78c002ff5e1b35d58c2dfc82'
+            'faf315d2bb7a9caa099db32e21451a1fd8fcc76475f25b36742356adc4f758e6fc7512106f9539b2db687c9566ef5889a4fa051c3c1a84555090d4b175e485d4'
+            '23f1533682c39e2ae2ae40083de343abcd6ed0a523eacdac58768067f8f450b1cec30073993dd7b972a5b8125136ed29a043ae894dff046fd75bb04c4d21a0f4')
+
+package() {
+  cd $srcdir
+
+  install -Dm644 $srcdir/adb.service $pkgdir/usr/lib/systemd/system/adb.service
+  install -Dm644 $srcdir/license.html $pkgdir/usr/share/licenses/$pkgname/license.html
+
+  install -d $pkgdir/{etc/profile.d,opt/$_sdk}
+
+  echo 'export PATH=$PATH:/opt/android-sdk/platform-tools' > $pkgdir/etc/profile.d/$pkgname.sh
+  echo 'setenv PATH ${PATH}:/opt/android-sdk/platform-tools' > $pkgdir/etc/profile.d/$pkgname.csh
+  chmod 755 $pkgdir/etc/profile.d/$pkgname.{csh,sh}
+
+  cp -a $srcdir/platform-tools $pkgdir/opt/$_sdk/platform-tools
+  chmod +Xr -R $pkgdir/opt/$_sdk/platform-tools
+}

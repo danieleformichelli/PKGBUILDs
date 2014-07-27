@@ -1,0 +1,30 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>)
+# Contributor: Josef Vybíhal (josef.vybihal@gmail.com)
+
+pkgname=google-webdesigner
+pkgver=1.0.5.0416
+pkgrel=1
+pkgdesc="Create engaging, interactive HTML5-based designs and motion graphics that can run on any device."
+arch=('x86_64')
+url="https://www.google.com/webdesigner"
+license=('custom:webdesigner')
+depends=('gtk2' 'libudev.so.0')
+options=('!emptydirs' '!strip')
+install=$pkgname.install
+source=("https://dl.google.com/linux/direct/google-webdesigner_current_amd64.deb")
+sha512sums=('692309e74504adc8b9a40db84aa3ea539a0a958850089c4bfa863e60efa21b21365b9f25027af666875d076df31df9e617ff549857c32fe3e15f26c76aeb30ce')
+
+package() {
+  msg2 "Extracting the data.tar.lzma"
+  tar -xf data.tar.gz -C $pkgdir
+
+  msg2 "Moving icons in place"
+  # Icons
+  for i in 16 32 48 64 128; do
+    install -Dm644 $pkgdir/opt/google/webdesigner/resources/product_logo_$i.png $pkgdir/usr/share/icons/hicolor/${i}x$i/apps/google-webdesigner.png
+  done
+
+  msg2 "Removing unnecessities (e.g. Debian Cron job)"
+  rm -r $pkgdir/etc/cron.daily/ $pkgdir/opt/google/webdesigner/cron/
+  rm $pkgdir/opt/google/webdesigner/resources/product_logo_*.png
+}

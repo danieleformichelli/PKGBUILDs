@@ -1,0 +1,33 @@
+# Maintainer:   danyf90 <daniele.formichelli@gmail.com>
+# Contributor:  Michael Kutschall (Caldazar) <michaelkutschall@web.de>
+# Contributor:  Simone Gaiarin <simgunz@gmail.com>
+# Contributor:  t3ddy <t3ddy1988 "at" gmail {dot} com>
+
+pkgname=kdeplasma-addons-applets-workflow
+_pkgname=plasmoid-workflow
+pkgver=0.4.1
+pkgrel=1
+pkgdesc="A KDE Plasmoid that integrates Activities, Virtual Desktops and Tasks Functionalities from Plasma Desktop in just one component."
+arch=('i686' 'x86_64')
+url="http://opentoolsandspace.org/en/projects/development/plasmoid-workflow"
+screenshot="http://opentoolsandspace.org/images/projects/workflow/v0.4.0/workflow040-2.jpg"
+license=('GPL')
+depends=('kde-workspace>=4.8')
+makedepends=('gcc' 'cmake' 'automoc4')
+source=("http://opentoolsandspace.org/Art/WorkFlow/0.4.x/${_pkgname}-${pkgver}.tar.gz")
+sha512sums=('5f0465e9b1266a71b2a02c450d005cd19eccb6b1ffac507cc0b624c20dac9d4a02e13eb607701c1f13902566b399ab955017c42a8abeb71cb2034911632c6cc2')
+
+build() {
+  cd $srcdir/$_pkgname-$pkgver
+
+  mkdir build && cd build
+
+  cmake .. -DCMAKE_INSTALL_PREFIX=/usr || return 1
+  make || return 1
+}
+
+package() {
+  cd $srcdir/$_pkgname-$pkgver/build
+
+  make DESTDIR=$pkgdir install || return 1
+}

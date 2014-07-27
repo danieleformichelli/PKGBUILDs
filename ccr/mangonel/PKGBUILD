@@ -1,0 +1,29 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: birdflesh <antkoul at gmail dot com>
+
+pkgname=mangonel
+pkgver=1.1
+pkgrel=1
+pkgdesc="A simple and pretty application launcher for KDE"
+arch=('x86_64')
+url='https://projects.kde.org/mangonel'
+license=('BSD')
+depends=('kdebase-runtime')
+makedepends=('cmake' 'automoc4')
+source=("http://download.kde.org/stable/$pkgname/$pkgname-$pkgver.tar.xz")
+sha512sums=('5e4e7270f618455f932356522e18b8598bd7567bf4456230d8b7c4c997fe54754a8b890a0e156a3f4f97d0810d91f4064f54d7cc499472a60b3265b888aea869')
+
+build() {
+  cd $srcdir
+
+  mkdir build
+  cd build
+  cmake ../$pkgname-$pkgver -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+  make
+}
+
+package() {
+  cd $srcdir/build
+  make DESTDIR=$pkgdir install
+  install -Dm644 ../$pkgname-$pkgver/COPYING $pkgdir/usr/share/licenses/$pkgname/LICENCE
+}

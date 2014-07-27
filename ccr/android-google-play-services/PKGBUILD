@@ -1,0 +1,25 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Joel Pedraza <pks-at-joelpedraza.com>
+
+pkgname=android-google-play-services
+pkgver=r17
+_build=4452030
+pkgrel=1
+pkgdesc='Google Play Services client library and sample code'
+arch=('any')
+url="https://developers.google.com/android/google-play-services/"
+license=('custom')
+options=('!strip')
+source=("http://dl.google.com/android/repository/google_play_services_${_build}_$pkgver.zip"
+        "source.properties")
+sha512sums=('fa8115002ece9faa3af113b15f91a16174001feaf808b09bf469c47ec49dd3253c868e789f20f7f12efce3e2b902c2b3f84811dbed2e5d4475d2cf8ea61cccc2'
+            'c681655225792fe5935d86c55b70d2e1cdd99ae9da3ad972168b76bd4e829eabc3da2676e3b54781adef722b9d8dba153dd8226267c0462fc06f483b4cf93fb0')
+
+package() {
+  cd $srcdir
+
+  install -D source.properties $pkgdir/opt/android-sdk/extras/google/google_play_services/source.properties
+  mv google-play-services $pkgdir/opt/android-sdk/extras/google/google_play_services
+
+  chmod -R ugo+rX $pkgdir/opt
+}

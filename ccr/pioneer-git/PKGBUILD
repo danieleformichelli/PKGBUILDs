@@ -1,0 +1,52 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Benjamin Hodgetts (Enverex) <ben@xnode.org>
+
+pkgname=pioneer-git
+pkgver=20131028
+pkgrel=1
+pkgdesc="Pioneer is a space adventure game set in the milkyway galaxy at the turn of the 31st century."
+arch=('x86_64')
+url="http://pioneerspacesim.net/"
+license=('GPL')
+provides='pioneer'
+install='pioneer.install'
+depends=('alsa-lib' 'assimp-git' 'libgl' 'libsigc++' 'libvorbis' 'lua' 'sdl' 'sdl_image' 'glew')
+makedepends=('autoconf' 'automake' 'freetype2' 'freeglut' 'git' 'libtool' 'mesa')
+source=("$pkgname.png"
+        "$pkgname.desktop")
+sha512sums=('b788c68f958cc0a1e4db5426f9939d20a7df44c232ff88e24c2732e83fc6eac25ff19729f0b0c2848bcd7e76941c72fa69729b33e124e4ee445f23a10cc427ba'
+            'b4f64fd7892414717f0262b721d7f0ca39aadf6b6d3ffa3e4c981fa25dd2392aba6cb14c81dc1d1f749c67265fa7a8df78045e8773c6b0e706237a0dfb57908e')
+
+_gitname="pioneer"
+_gitroot="git://github.com/pioneerspacesim/$_gitname.git"
+
+build() {
+  cd $srcdir
+
+  msg "Connecting to GIT repository..."
+
+  if [ -d $_gitname ] ; then
+    cd $_gitname && git pull origin && git reset --hard origin/master
+    msg "Local GIT files have been updated."
+  else
+    git clone $_gitroot $_gitname --depth 1
+  fi
+
+  msg "GIT checkout complete or server timeout."
+  msg "Starting make..."
+
+  cd $_gitname
+
+  ./bootstrap
+  PIONEER_DATA_DIR=/usr/games/pioneer ./configure --prefix=/usr
+}
+
+package() {
+  cd $srcdir
+
+  install -Dm644 $srcdir/pioneer.desktop $pkgdir/usr/share/applications/pioneer.desktop
+  install -Dm644 $srcdir/pioneer.png $pkgdir/usr/share/pixmaps/pioneer.png
+  install -Dm644 $srcdir/$_gitname/Quickstart.txt $pkgdir/usr/share/doc/pioneer/quickstart.txt
+  cd $srcdir/$_gitname
+  make DESTDIR=$pkgdir install
+}

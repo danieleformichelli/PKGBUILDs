@@ -1,0 +1,43 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Umidjon Almasov <u.almasov@gmail.com>
+
+pkgname=rexloader-svn
+_pkgname=rexloader
+pkgver=336
+pkgrel=1
+pkgdesc="A cross platform file downloader"
+arch=('x86_64')
+url="http://code.google.com/p/rexloader"
+license=('GPL3')
+depends=('qtwebkit')
+makedepends=('subversion')
+source=(svn+http://rexloader.googlecode.com/svn/trunk/)
+md5sums=('SKIP')
+
+pkgver() {
+  cd $srcdir/trunk
+  svnversion | tr -d [A-z]
+}
+
+prepare() {
+  cd $srcdir/trunk
+
+  qmake-qt4
+}
+
+build() {
+  cd $srcdir/trunk
+
+  make
+}
+
+package() {
+  cd $srcdir/trunk
+
+  cp -r usr/ $pkgdir
+
+  # Desktop icon
+  cd REXLoader
+  install -Dm644 rexloader.png $pkgdir/usr/share/pixmaps/rexloader.png
+  install -Dm644 rexloader.desktop $pkgdir/usr/share/applications/rexloader.desktop
+}

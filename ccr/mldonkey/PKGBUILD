@@ -1,0 +1,56 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: kote <koteccr at gmail dot com>
+
+pkgname=mldonkey
+pkgver=3.1.3
+pkgrel=2
+pkgdesc="A multi-network P2P client"
+arch=('i686' 'x86_64')
+url="http://mldonkey.sourceforge.net/"
+license=('GPL')
+depends=('desktop-file-utils' 'file' 'gd')
+makedepends=('lablgtk2' 'librsvg' 'ocaml')
+optdepends=(
+  'kmldonkey: KDE GUI'
+  'librsvg: GUI support'
+  'libx11: GUI support')
+backup=('etc/conf.d/mldonkey')
+install=mldonkey.install
+source=("http://downloads.sourceforge.net/sourceforge/mldonkey/$pkgname-$pkgver.tar.bz2"
+        "$pkgname.conf"
+        "$pkgname.service"
+        "$pkgname.tmpfiles"
+        "gd_version.patch")
+sha512sums=('921e428743934cd7a94fcdb8fea43a5a57cc3232a68fff443dbeb7f724fbe6805c38f4ae8c6e58c552e7a42c49f1c233f622239d6c7ee1ccf920bc19b2aef8f9'
+            'c9436eef8ad7c32ea41a9c19804fc46cf081215070395f44540168ed76194a7bb72c7c3383745dd2313694ce572d03ec28901b43872666f75aa2ccd44b2de82e'
+            '791f7ae1a4b2cf180ec6360bf1fcc72a5da985def10234b75b916f66d6fb73ba59413a5058fc4d79ead8824cd0f8113658bb2f5fee1f020dac2b96987fa48b55'
+            '174fde5533f7540498304e1f70279c090898e0b8fa11945131abab76f55d6fecf38f43790e02174e2bcaac37653303e92ebc248474974a5fb2504a636171c17e'
+            '6e2bd2d3f37977b934c7ef52630aceefefa91c597223afa04b31af1fc78cea632b1fecff703d1cc1ac7fe42219ec5393cc97aab3450c07ed118d99f2a2b11a41')
+
+prepare() {
+  cd $pkgname-$pkgver
+
+  patch -p0 < ../gd_version.patch # a fix from upstream http://cvs.savannah.gnu.org/viewvc/mldonkey/config/configure.in?root=mldonkey&r1=1.357&r2=1.358&view=patch
+
+  rm config/configure  # remove this file to force its regeneration, we've just changed ./config/configure.in
+}
+
+build() {
+  cd $pkgname-$pkgver
+  ./configure --prefix=/usr --enable-gui=newgui2
+  make
+}
+
+package() {
+  cd $pkgname-$pkgver
+
+  make DESTDIR=$pkgdir install
+  install -d $pkgdir/var/lib/mldonkey
+
+  install -Dm644 icons/rsvg/type_source_normal.svg $pkgdir/usr/share/icons/mldonkey.svg
+  install -Dm644 distrib/mldonkey.desktop $pkgdir/usr/share/applications/mldonkey.desktop
+
+  install -Dm644 ../mldonkey.conf $pkgdir/etc/conf.d/mldonkey
+  install -Dm644 ../mldonkey.service $pkgdir/usr/lib/systemd/system/mldonkey.service
+  install -Dm644 ../mldonkey.tmpfiles $pkgdir/usr/lib/tmpfiles.d/mldonkey.conf
+}

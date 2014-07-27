@@ -1,0 +1,26 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: xgdgsc <xgdgsc @t gmail dot com>
+
+pkgname=android-sdk-build-tools
+_ver=20
+pkgver=r$_ver
+pkgrel=1
+pkgdesc='Build-Tools for Google Android SDK (aapt, aidl, dexdump, dx, llvm-rs-cc)'
+arch=('x86_64')
+url="http://developer.android.com/sdk/index.html"
+license=('custom')
+depends=('lib32-gcc-libs' 'lib32-zlib')
+source=("http://dl-ssl.google.com/android/repository/build-tools_$pkgver-linux.zip")
+sha512sums=('4f21e1884efe95ac6531419ac4fa198a70494d6a20cfd0e1ca320dd21cd2ae1639d4e3d35fc96e97c5afd1e09eb99068ed9723899cf27661bf0eed04a940172e')
+options=('!strip')
+_sdk=android-sdk
+_android=android-4.4W
+
+package() {
+  install -d $pkgdir/opt/$_sdk/build-tools/$_ver
+
+  install -Dm644 $_android/NOTICE.txt $pkgdir/usr/share/licenses/$pkgname/NOTICE.txt
+
+  cp -r $_android/* $pkgdir/opt/$_sdk/build-tools/$_ver
+  chmod +Xr -R $pkgdir/opt/$_sdk/build-tools/$_ver
+}

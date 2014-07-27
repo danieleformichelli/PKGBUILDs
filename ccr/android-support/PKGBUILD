@@ -1,0 +1,22 @@
+# Maintainer: danyf90 <daniele.formichelli@gmail.com>
+
+pkgname=android-support
+pkgver=r20
+pkgrel=1
+pkgdesc='Android Support Package'
+arch=('any')
+url="https://developer.android.com/sdk/compatibility-library.html"
+license=('custom')
+depends=('android-sdk')
+options=('!strip')
+source=("http://dl-ssl.google.com/android/repository/support_$pkgver.zip")
+sha512sums=('53a1f8aaa247f1d093f84dbf2202005f4587b791ab92526d826c1e2d9bef3b28a5eff6b82d57c564c0719ca8ef88ae00f34fa700b7a87dabe9135044a9741ecd')
+
+package() {
+  cd $srcdir
+
+  install -d $pkgdir/opt/android-sdk/extras/android
+  mv support $pkgdir/opt/android-sdk/extras/android/support
+
+  chmod -R ugo+rX $pkgdir/opt
+}

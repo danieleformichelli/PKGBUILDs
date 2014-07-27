@@ -1,0 +1,21 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+
+pkgname=square-icon-theme
+_themename=Square
+pkgver=0.1
+pkgrel=1
+pkgdesc="Elegance, modern, compatible with Gnome smiliar and KDE."
+url="http://gnome-look.org/content/show.php/Square?content=163513"
+license=('GPL')
+arch=('any')
+source=("$_themename.tar::https://googledrive.com/host/0B_htoB2A67-XbWhKbGxwMndRQlE")
+sha512sums=('ba51e69fb8090c1ab108a5b382fd8450979bac46f117c67e898a4b39dda5292147436469424c15e51732bdb11caafa45aa1f002c066bda3b4b180a5141b1b605')
+options=(!strip)
+
+package() {
+  cd $srcdir
+
+  install -d $pkgdir/usr/share/icons
+  cp -r $srcdir/$_themename $pkgdir/usr/share/icons/
+  chmod -R 755 $pkgdir/usr/share/icons/$_themename
+}

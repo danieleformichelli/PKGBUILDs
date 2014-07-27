@@ -1,0 +1,31 @@
+# # Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+# Contributor: Jan De Groot <jgc@archlinux.org>
+
+pkgname=gucharmap
+pkgver=3.12.1
+pkgrel=1
+pkgdesc="Gnome Unicode Charmap"
+arch=('x86_64')
+license=('GPL')
+url="http://www.gnome.org"
+depends=('dconf' 'gtk3' 'hicolor-icon-theme')
+makedepends=('gtk-doc' 'intltool' 'gobject-introspection' 'itstool' 'docbook-xsl' 'desktop-file-utils')
+options=('!emptydirs')
+install=$pkgname.install
+source=("http://ftp.gnome.org/pub/gnome/sources/$pkgname/${pkgver:0:4}/$pkgname-$pkgver.tar.xz")
+sha512sums=('47d5a85cd6941ea5698442658d7aa91ac9e2b86b861f2fa9fd2a397caddc81c89df550cd635c5cf080bb31e7f2f0968d4bd36c23dc231799af533736fe66bf6b')
+
+build() {
+  cd $pkgname-$pkgver
+
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+      --disable-static --disable-schemas-compile  --enable-introspection
+  make
+}
+
+package() {
+  cd $pkgname-$pkgver
+
+  make DESTDIR=$pkgdir install
+}

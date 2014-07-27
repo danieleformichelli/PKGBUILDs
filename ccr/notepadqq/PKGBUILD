@@ -1,0 +1,32 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Zom <zom[at]eevul[dot]org>
+
+pkgname=notepadqq
+pkgver=0.13.11
+pkgrel=1
+pkgdesc="A Linux clone of Notepad++"
+arch=('x86_64')
+url="http://notepadqq.sourceforge.net/wp/"
+license=('GPL3')
+depends=('qt' 'qscintilla')
+source=("http://ppa.launchpad.net/notepadqq-team/notepadqq/ubuntu/pool/main/n/notepadqq/notepadqq_${pkgver}.orig.tar.gz")
+sha512sums=('89e95bafaaac416cbd619389fd14cb3596790edc9899aa001994322f233f05edf970ee7685f87f12902c57571c811cc7cc0996028a55465083e6d87cb2eb3111')
+
+build() {
+  cd $srcdir/notepadqq-$pkgver
+
+  qmake
+  make
+}
+
+package() {
+  cd $srcdir/notepadqq-$pkgver
+
+  install -d $pkgdir/usr/{bin,share/{applications,icons/hicolor/scalable/apps,pixmaps}}
+
+  install -m0755 ../build/notepadqq $pkgdir/usr/bin/
+  install -m0644 sys_files/usr/share/applications/notepadqq.desktop $pkgdir/usr/share/applications/
+  install -m0644 sys_files/usr/share/icons/hicolor/scalable/apps/notepadqq.svg $pkgdir/usr/share/icons/hicolor/scalable/apps/
+  install -m0644 sys_files/usr/share/pixmaps/{notepadqq_32x32.xpm,notepadqq_16x16.xpm} $pkgdir/usr/share/pixmaps/
+  cp -r sys_files/usr/share/notepadqq $pkgdir/usr/share/
+}

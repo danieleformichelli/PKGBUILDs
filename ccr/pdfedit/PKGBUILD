@@ -1,0 +1,37 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Lukas Fleischer <archlinux at cryptocrack dot de>
+# Contributor: Firmicus <firmicus α gmx δ net>
+# Contributor: Daniel J Griffiths <ghost1227@archlinux.us>
+
+pkgname=pdfedit
+pkgver=0.4.5
+pkgrel=3
+pkgdesc='Full featured editor for manipulating PDF documents'
+arch=('x86_64')
+url='http://pdfedit.petricek.net/index_e.html'
+license=('GPL')
+depends=('t1lib' 'gsfonts')
+makedepends=('boost' 'doxygen')
+source=("http://downloads.sourceforge.net/pdfedit/${pkgname}-${pkgver}.tar.bz2"
+        "$pkgver.png"
+        "$pkgver.desktop")
+sha512sums=('b9f0ebed31467dca259380e0fa5b428ac3d189597601fb3b37ea35a564b1a6b965561227e46695262b6555f1a5c372a1e5350baf680e44534760ed8fef8b5d4c'
+            '66b9fa26d887df7f9fec17068b444d49761307ac0d903ca4d6e8dec7cb7dcab5fd3590d90681bb59980ba7aa226a0c59274ac1657e5b0b87ac49bccfe1ceb944'
+            'e810088729ba378665200be2d458f7a20a67848f6d9b01c60b8ba094779944a587c082b5005504fb26251c8d87a33e3b11e761cf81738632b495a8ba3efb76e5')
+
+build() {
+  cd $srcdir/$pkgname-$pkgver
+
+  sed -i 's:/usr/share/fonts/type1/gsfonts:/usr/share/fonts/Type1:' src/xpdf/xpdf/GlobalParams.cc
+  QTDIR=/usr ./configure --prefix=/usr
+  make CXXFLAGS+="-I/usr/include/qt3" MOC=/usr/bin/moc-qt3 UIC=/usr/bin/uic-qt3 QTDIR=/usr
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+
+  make INSTALL_ROOT=$pkgdir install
+
+  install -Dm0644 ../pdfedit.desktop $pkgdir/usr/share/applications/pdfedit.desktop
+  install -Dm0644 ../pdfedit.png $pkgdir/usr/share/pixmaps/pdfedit.png
+}

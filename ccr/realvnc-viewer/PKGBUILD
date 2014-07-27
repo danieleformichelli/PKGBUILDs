@@ -1,0 +1,26 @@
+# Contributor: danyf90 <daniele.formichelli@gmail.com>
+# Maintainer:  Tom Wizetek <tom@wizetek.com>
+
+pkgname=realvnc-viewer
+pkgver=5.1.0
+pkgrel=1
+pkgdesc="RealVNC Viewer"
+_pkgbin="VNC-Viewer-$pkgver-linux"
+url="http://www.realvnc.com/"
+license=('custom')
+arch=('x86_64')
+depends=('libx11')
+source=("$_pkgbin-x64.gz::$url/download/binary/1387"
+        "$pkgname.desktop"
+        "$url/assets/img/logo_48x48.png")
+sha512sums=('c5037dee67c675f5d3dddc37402ad178944c93cf4037341c89e123e1b81fe1589b0acb3edf7e466d96135cf5aa2c176b98593c4ed843c732d7604be70a7451b3'
+            '26d0b837db8dae83bf82721cd24407cb69e91a9fcd71c0930a006abd3e0afdbf592ac404afd6409029372f0535d6423afbdc773910e7cdc15736de619a068acc'
+            'd270a80b25d6c49e8ab95208aeef8dfaa263b89e01e0b28b96264331830c6f29f664eab60e1fcb5dc9fd661ef8c74a5dac0d1a6647cf1ad957e44a2ff42ce408')
+
+package() {
+  cd $srcdir
+
+  install -Dm755 $_pkgbin-x64 $pkgdir/usr/bin/$pkgname
+  install -Dm644 logo_48x48.png $pkgdir/usr/share/pixmaps/$pkgname.png
+  install -Dm644 $pkgname.desktop $pkgdir/usr/share/applications/$pkgname.desktop
+}

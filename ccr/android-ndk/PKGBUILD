@@ -1,0 +1,26 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Daniel Micay <danielmicay@gmail.com>
+
+pkgname=android-ndk
+pkgver=r9d
+pkgrel=1
+pkgdesc="Android C/C++ developer kit"
+arch=('x86_64')
+url="http://developer.android.com/sdk/ndk/index.html"
+license=('GPL' 'LGPL' 'custom')
+depends=('android-sdk')
+options=('!strip' 'staticlibs')
+install=$pkgname.install
+source=("http://dl.google.com/android/ndk/$pkgname-$pkgver-linux-x86_64.tar.bz2"
+        "$pkgname.sh")
+sha512sums=('b6b663533785fb6cbc10e467a109cf47f4a49d87abc72f03439ac7b3aa57350e1602d766793bf6c3c5f6e4f4ab8733311ef1c761ac335691566b2e936f853af3'
+            '2fa12444cf54729d0ecd478faaa5ee05adb94f387209c6ca2fb208653ae766b38930af02d5d831b735208166203242cbdf95dc07cb77518369745d8336b6e6b4')
+
+package() {
+  cd $srcdir
+
+  install -Dm755 android-ndk.sh $pkgdir/etc/profile.d/android-ndk.sh
+
+  install -d $pkgdir/opt
+  cp -a $pkgname-$pkgver $pkgdir/opt/android-ndk
+}

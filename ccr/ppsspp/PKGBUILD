@@ -1,0 +1,63 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Thiago Kenji Okada <thiago DOT mast3r AT gmail DOT com>
+
+pkgname=ppsspp
+pkgver=0.9.8
+pkgrel=1
+pkgdesc="A PSP emulator for Android, Windows, Mac, and Linux, written in C++."
+arch=('x86_64')
+url="http://www.ppsspp.org"
+license=("GPL2")
+depends=('zlib' 'sdl' 'ffmpeg' 'glu' 'setconf')
+makedepends=('cmake' 'git')
+source=("https://github.com/hrydgard/ppsspp/archive/v$pkgver.tar.gz"
+        "ppsspp-ffmpeg-for-$pkgver.tar.gz::https://github.com/hrydgard/ppsspp-ffmpeg/archive/6cffc1f6012e0091f46c031a023e877d621f83e4.tar.gz"
+        "ppsspp-lang-for-$pkgver.tar.gz::https://github.com/hrydgard/ppsspp-lang/archive/ec04fc188efc08ccf1c43ec337145f706e1fb807.tar.gz"
+        "native-for-$pkgver.tar.gz::https://github.com/hrydgard/native/archive/6b8a8a6c8d5277b295d5f0d53e5b218cb987a296.tar.gz"
+        "$pkgname-sdl.sh"
+        "$pkgname-headless.sh")
+sha512sums=('4078a081206a6b4e0b77f71d24bb717b4c70e2f2eda9ebb8d8c1d0058daa2aaa7df55ef5aead803b5dbb1b28cb76493dba83effeb0183ddbac676955247915e4'
+            '94977851a5b5afb9204ec48985213ba256efc5f183d5901b736910e13e653e1587099e4c6f8a4634d1db9d9820ff5a3e5776d1f0bab0b6ea400b388fbc3cef6d'
+            '3a00e3d5cc033bade78d322719de2dbd04820758b256207b8c848b56a04e2611b943fdaa700491a883d005c21f45e38ffc019b5a0133f88b4bbbc4890540a259'
+            'f32dbe845a921a0a6b3af9cc263df5697a734dd961989ac6b64701e9156dc9d8d3e2c1fa46408799901062aaf1ef2918f94c7eecc2cf9c54804efa0ed38402e5'
+            'c4c9aa43c88e7cd571be0bf29c55bcc7775e17b6f976c20754bc49c5e05b3d7d0601d86a539b5a4c82248c53eee2ee1fb2d442746a21fbbb17672a373905313e'
+            '07c03141c00381ddd5eb5cd8671e289cee4521e9a19c61f32d747e6388f824bbdd2e523ca16ac7e689aba1981c6b37ce8361ef90668affe3960553eebcd1adeb')
+
+prepare() {
+  cd $srcdir
+
+  # copy submodules to right location
+  cp -rup native-*/* ppsspp-$pkgver/native
+  cp -rup ppsspp-lang-*/* ppsspp-$pkgver/lang
+  cp -rup ppsspp-ffmpeg-*/linux ppsspp-$pkgver/ffmpeg
+
+  # disable git versioning
+  sed 's|find_package(Git)|# &|' -i ppsspp-$pkgver/git-version.cmake
+
+  # reset build folder
+  rm -rf build
+  mkdir build
+}
+
+build() {
+  cd $srcdir/build
+
+  cmake ../ppsspp-$pkgver -DCMAKE_BUILD_TYPE=Release -DHEADLESS=ON
+  make
+}
+
+package() {
+	cd $srcdir
+	install -Dm644 ppsspp-$pkgver/LICENSE.TXT $pkgdir/usr/share/licenses/ppsspp/LICENSE.TXT
+	install -Dm644 ppsspp-$pkgver/assets/icon.svg $pkgdir/usr/share/icons/ppsspp.svg
+	install -Dm644 ppsspp-$pkgver/Qt/PPSSPP.desktop $pkgdir/usr/share/applications/PPSSPP.desktop
+	setconf $pkgdir/usr/share/applications/PPSSPP.desktop Exec /usr/bin/ppsspp-sdl
+	setconf $pkgdir/usr/share/applications/PPSSPP.desktop Icon /usr/share/icons/ppsspp.svg
+	install -Dm755 ppsspp-sdl.sh $pkgdir/usr/bin/ppsspp-sdl
+	install -Dm755 ppsspp-headless.sh $pkgdir/usr/bin/ppsspp-headless
+	install -Dm755 build/PPSSPPSDL $pkgdir/usr/share/ppsspp/PPSSPPSDL
+	install -Dm755 build/PPSSPPHeadless $pkgdir/usr/share/ppsspp/
+
+	cd build/assets
+	find . -type f -exec install -Dm644 {} $pkgdir/usr/share/ppsspp/assets/{} \;
+}
