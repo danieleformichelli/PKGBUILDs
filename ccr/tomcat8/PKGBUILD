@@ -1,6 +1,8 @@
-# Maintainer: Guillaume ALAUX <guillaume@archlinux.org>
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Guillaume ALAUX <guillaume@archlinux.org>
+
 pkgname=tomcat8
-pkgver=8.0.8
+pkgver=8.0.9
 pkgrel=1
 pkgdesc='Open source implementation of the Java Servlet 3.1 and JavaServer Pages 2.3 technologies'
 arch=('any')
@@ -21,7 +23,7 @@ source=("http://archive.apache.org/dist/tomcat/tomcat-8/v$pkgver/bin/apache-tomc
         "systemd_tmpfiles.d_$pkgname.conf"
         "$pkgname.install")
 
-sha512sums=('79afbebc559497edcdd206ee84c476dc1c54f15be7cb6be30196c84ccac71eb0683ae90259c60327fb569e727949c7a4a4e30917fc1512ec81ef85d82720aa3f'
+sha512sums=('82323d1b2e65c376120f76f362f967f8140d568131853ba104d613e0f38c7c03a082547090992d9df91ce40a8d8ff7db116db520194eeb8142be26ebd80bc484'
             '9982bbc812e8a981b9f84f0c22bfb33d693d1fd49fd0446d8fdf0c04d295f88f33826c5a98c917c3467c81a5a3618df656a9a5d73e5693fce694a91b66755ec6'
             'f3365bd2d9e2bea14c9d5a5c39098f8192f62e2bf922b030ba1f10d4529c2ac88b7c5acc1bc9d52317cfa904ae0c1f2190a983c362f12cf788056ab45dc8d9da'
             '96aa68132fe1fc4e18b4d5187910823313bc01c1e944561f630527eb297a51bdc71b56268409d38783f08c21a3c580ba37980d6070ff51ea222c1f6e2764837a')

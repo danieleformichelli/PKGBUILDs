@@ -28,6 +28,8 @@ package() {
 
   install -d $pkgdir/{opt,usr/bin}
 
+  chmod a+x $filename
+  
   ./$filename --prefix $pkgdir/opt --mode unattended
 
   rm $pkgdir/opt/uninstall
