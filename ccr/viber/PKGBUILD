@@ -2,8 +2,8 @@
 # Contributor: Özgür Sarıer <ozgursarier1011601115[at]gmail[dot]com>
 
 pkgname=viber
-pkgver=3.1.2.3
-pkgrel=3
+pkgver=4.2.2.6
+pkgrel=1
 pkgdesc="Free calls, text and picture sharing with anyone, anywhere!"
 arch=('x86_64')
 url="http://viber.com"
@@ -11,9 +11,9 @@ license=('custom')
 source=("http://download.cdn.viber.com/cdn/desktop/Linux/$pkgname.deb"
         "eula.html"
         "viber")
-sha512sums=('45303505cd1d0815671af0e933cc2162d4b4745855d4c0f7fbb6217ccf50d39e1eaad06683373bc537c485ba87ef8513b68e4b30cdbbcc017c26b8c69e6ecd3f'
+sha512sums=('b3dc24224f1761870146277e229152ee39d5511aab346aa7e47d36cf5b1751cc20839f8c839dc63a6c47b3bebd9ab4a2f00f2f356bc0295581bc6a0fa4a3bc61'
             '5637927f153312d5f6fdb51b5e1dfe618a718fd7cc0d1a0b34b6957639b14fd08eb33c83510f1b3e606ba1d7c8bc0de5846d371d2d16cb0a82a13c712909fefc'
-            '2cbccdbbed541e70d8d73d91bf1d92d1189ba2cc8e1ca31d43843a054376f07489bbf8c2be3c5e8f14b12b42b606e92bd575cc65b95463c916874bfb2d072b8d')
+            'b49abf289a869cd5edf591906f3e5f507adda26e682169ce1a9cbfdde0cdecada88cc9c0c9e721185ff9c247b754596cb60730e22044ebbb057ad4897e04ba32')
 
 package() {
   cd $srcdir
