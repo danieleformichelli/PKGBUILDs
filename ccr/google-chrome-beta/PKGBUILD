@@ -2,7 +2,7 @@
 # Contributor: Anke Boersma <abveritas@chakra-project.org>
 
 pkgname=google-chrome-beta
-pkgver=38.0.2125.77
+pkgver=39.0.2171.19
 pkgrel=1
 pkgdesc="Google Chrome Beta channel for Linux"
 arch=('x86_64')
