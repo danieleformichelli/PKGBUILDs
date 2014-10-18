@@ -4,7 +4,7 @@
 # Contributor: Daniel Micay <danielmicay@gmail.com>
 
 pkgname=android-sdk
-pkgver=r23.0.2
+pkgver=r23.0.5
 pkgrel=1
 pkgdesc='Google Android SDK'
 arch=('x86_64')
@@ -22,7 +22,7 @@ source=("https://dl-ssl.google.com/android/repository/tools_$pkgver-linux.zip"
         "$pkgname.csh"
         "$pkgname.conf"
         "license.html")
-sha512sums=('2f3cb1f6a7793d749ddf41f45b96200462b123dd71166d43c43c3e758258947261629f5c5b03b2db462d018a1b91aab6e66e20e2d0602194de6c42d4f06e26c1'
+sha512sums=('b085e0821e454f7bad491e2567c425d559d743c7722e1e38725db013aecef278ab443b90ffbf9d8e0e5ef82e8e52823307243f1227b097f072a9c2602c458f20'
             '3044cd6c10353f4fbbc531b6b436f4a01c7724614168974265639854134489ac914cee7a9945da27e04a9d76be8fad0107030719c8e7e0e4ea21a9b3dfb2d2f6'
             '7d3411714d2eaa6a3902bda7cea666efe375b133243f19de785ca2e501ee6815699cc097c6e5ce2c2aee3e231ce91f20327822d79c5a5bd02d8d910e0a50e49d'
             '6f555b257fe4f541363218058e8106799999f02eeafba7687abfdaab903bcce7f8ce70d20aadfab412730e533d0ebb3d8066d9ba85e3ac1ef8070aedcb02aaf6'

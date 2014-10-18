@@ -1,7 +1,7 @@
 # Maintainer: danyf90 <daniele.formichelli@gmail.com>
 
 pkgname=android-support
-pkgver=r20
+pkgver=r21
 pkgrel=1
 pkgdesc='Android Support Package'
 arch=('any')
@@ -10,7 +10,7 @@ license=('custom')
 depends=('android-sdk')
 options=('!strip')
 source=("http://dl-ssl.google.com/android/repository/support_$pkgver.zip")
-sha512sums=('53a1f8aaa247f1d093f84dbf2202005f4587b791ab92526d826c1e2d9bef3b28a5eff6b82d57c564c0719ca8ef88ae00f34fa700b7a87dabe9135044a9741ecd')
+sha512sums=('00ddaae93fd9d6b1d33b6f7520321b60b9157ceaf1eec37d6d2a107787a766da37ef1bb55116984e4494f6cbf0e343ac92b86970208c040708ef633611ee7237')
 
 package() {
   cd $srcdir

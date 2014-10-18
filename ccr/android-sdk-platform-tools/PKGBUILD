@@ -1,7 +1,7 @@
 #Maintainer: danyf90 <daniele.formichelli@gmail.com>
 
 pkgname=android-sdk-platform-tools
-pkgver=r20
+pkgver=r21
 pkgrel=1
 pkgdesc='Platform-Tools for Google Android SDK (adb, aapt, aidl, dexdump and dx)'
 arch=('x86_64')
@@ -16,7 +16,7 @@ _ptools=opt/$_sdk/platform-tools
 source=("http://dl-ssl.google.com/android/repository/platform-tools_${pkgver}-linux.zip"
         "adb.service"
         "license.html")
-sha512sums=('a3ce19a0103251a15115a449c1561ef2f056efcbc3f8def338acad73a89067e33dc6a5c0bd003eee02e8c8e29c77b01832db742e78c002ff5e1b35d58c2dfc82'
+sha512sums=('fdf74b880868520f2e4b9079e608d592c2cc2b72bdd6634e674e108390ba595b7b4b9aeea4a73ab7e5ab748add2f1675ec1242313a2dc2e6e211b330f119900b'
             'faf315d2bb7a9caa099db32e21451a1fd8fcc76475f25b36742356adc4f758e6fc7512106f9539b2db687c9566ef5889a4fa051c3c1a84555090d4b175e485d4'
             '23f1533682c39e2ae2ae40083de343abcd6ed0a523eacdac58768067f8f450b1cec30073993dd7b972a5b8125136ed29a043ae894dff046fd75bb04c4d21a0f4')
 

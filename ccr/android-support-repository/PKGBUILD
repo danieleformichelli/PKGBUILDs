@@ -1,7 +1,7 @@
 # Maintainer: danyf90 <daniele.formichelli@gmail.com>
 
 pkgname=android-support-repository
-pkgver=r06
+pkgver=r07
 pkgrel=1
 pkgdesc='Android Support Repository Package'
 arch=('any')
@@ -11,7 +11,7 @@ depends=('android-sdk')
 options=('!strip')
 source=("http://dl-ssl.google.com/android/repository/android_m2repository_$pkgver.zip"
         "source.properties")
-sha512sums=('f53ffa192ebf396b6650cbb559a9f1e394889df9ca9d57fa4e9c628245f2035cc4c473567251836286317b08cf77f124dc6b14aa2c24ce452a388eca8e1e6920'
+sha512sums=('a8328ea0e69a406cf9df0caffe656f1d627e34f1bf4df4865c2d3c7dddc14638f4ee050055ee13b56e05f2e38763aa1e8103830f57a30dd7ff075edbb22d903a'
             '4eff517b19dd04408e29670cfa1d81a281120ead57826d367cd650ba49e1a2cb4390b1a6abe259e619dfd08554565959228954fbb81cfeb8649fa077ca2c50dc')
 
 package() {
