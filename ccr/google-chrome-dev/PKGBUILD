@@ -2,7 +2,7 @@
 # Contributor: Anke Boersma <abveritas@chakra-project.org>
 
 pkgname=google-chrome-dev
-pkgver=40.0.2214.10
+pkgver=41.0.2224.3
 pkgrel=1
 pkgdesc="Google Chrome Developer preview channel for Linux"
 arch=('x86_64')
