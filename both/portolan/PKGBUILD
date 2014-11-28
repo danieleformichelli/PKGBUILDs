@@ -1,7 +1,11 @@
 # Maintainer:  danyf90 <daniele.formichelli@gmail.com>
 
 pkgname=portolan
+<<<<<<< HEAD
 pkgver=20141105
+=======
+pkgver=beta
+>>>>>>> d8e337d66470af0e0bd09c11256a019e90d74167
 pkgrel=1
 pkgdesc="Portolan internet measurement tool"
 arch=('i686' 'x86_64')
