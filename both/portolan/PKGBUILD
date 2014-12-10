@@ -9,7 +9,7 @@ depends=('java-runtime>=6' 'wireless_tools')
 license=('custom')
 url="http://portolan.iet.unipi.it/"
 install=$pkgname.install
-source=("https://dl.dropboxusercontent.com/u/50990622/$pkgname.tar.gz")
+source=("http://portolan.iet.unipi.it/wordpress/wp-content/uploads/2014/11/portolan.tar.gz")
 sha512sums=('SKIP')
 
 package() {
