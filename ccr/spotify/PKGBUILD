@@ -5,14 +5,14 @@
 pkgname=spotify
 pkgver=0.9.11.27
 _pkgver=g2b1a638.81-1
-pkgrel=1
+pkgrel=2
 pkgdesc="A proprietary peer-to-peer music streaming service"
 arch=('x86_64')
 license=('custom:"Copyright (c) 2006-2013 Spotify Ltd"')
 install=$pkgname.install
 url="http://www.spotify.com"
 options=('!strip')
-depends=("alsa-lib" "gconf" "glibc" "libxss" "qtwebkit" "nspr<5.0")
+depends=("alsa-lib" "gconf" "glibc" "libgcrypt15" "libxss" "qtwebkit" "nspr<5.0")
 optdepends=('desktop-file-utils: Adds URI support to compatible desktop environments'
             'ffmpeg-compat: Adds playback support for local files')
 source=("http://repository-origin.spotify.com/pool/non-free/s/$pkgname/$pkgname-client_$pkgver.${_pkgver}_amd64.deb"
