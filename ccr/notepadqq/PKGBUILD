@@ -2,15 +2,15 @@
 # Contributor: Zom <zom[at]eevul[dot]org>
 
 pkgname=notepadqq
-pkgver=0.13.11
+pkgver=0.41.1
 pkgrel=1
 pkgdesc="A Linux clone of Notepad++"
 arch=('x86_64')
 url="http://notepadqq.sourceforge.net/wp/"
 license=('GPL3')
 depends=('qt' 'qscintilla')
-source=("http://ppa.launchpad.net/notepadqq-team/notepadqq/ubuntu/pool/main/n/notepadqq/notepadqq_${pkgver}.orig.tar.gz")
-sha512sums=('89e95bafaaac416cbd619389fd14cb3596790edc9899aa001994322f233f05edf970ee7685f87f12902c57571c811cc7cc0996028a55465083e6d87cb2eb3111')
+source=("http://ppa.launchpad.net/notepadqq-team/notepadqq/ubuntu/pool/main/n/notepadqq/notepadqq_${pkgver}.orig.tar.bz2")
+sha512sums=('51f42729908875363536b3fbd86f8e14dfbaeff0c3431a4f07aa27084cc9fa827e8f5ce9bd95bd0950644ffb91f9fe3dce087212b22d9f3324957d97768547c0')
 
 build() {
   cd $srcdir/notepadqq-$pkgver
