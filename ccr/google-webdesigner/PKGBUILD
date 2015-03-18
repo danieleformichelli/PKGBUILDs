@@ -2,7 +2,7 @@
 # Contributor: Josef Vybíhal (josef.vybihal@gmail.com)
 
 pkgname=google-webdesigner
-pkgver=1.0.5.0416
+pkgver=1.2.0.1203
 pkgrel=1
 pkgdesc="Create engaging, interactive HTML5-based designs and motion graphics that can run on any device."
 arch=('x86_64')
@@ -12,7 +12,7 @@ depends=('gtk2' 'libudev.so.0')
 options=('!emptydirs' '!strip')
 install=$pkgname.install
 source=("https://dl.google.com/linux/direct/google-webdesigner_current_amd64.deb")
-sha512sums=('692309e74504adc8b9a40db84aa3ea539a0a958850089c4bfa863e60efa21b21365b9f25027af666875d076df31df9e617ff549857c32fe3e15f26c76aeb30ce')
+sha512sums=('SKIP')
 
 package() {
   msg2 "Extracting the data.tar.lzma"

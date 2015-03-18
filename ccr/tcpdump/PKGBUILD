@@ -3,7 +3,7 @@
 # Contributor: dorphell <dorphell@archlinux.org>
 
 pkgname=tcpdump
-pkgver=4.5.1
+pkgver=4.7.3
 pkgrel=1
 pkgdesc="A tool for network monitoring and data acquisition"
 arch=('x86_64')
@@ -12,7 +12,7 @@ license=('BSD')
 depends=('libpcap' 'openssl')
 source=("http://www.tcpdump.org/release/$pkgname-$pkgver.tar.gz"
         "tcpdump_duplicate_executable.patch")
-sha512sums=('c4d739e68a4d54f184c9b3e21fed95f327e4070dc0f3ddb35890b93b809de424c0a9a313353fb97e49aaf5425ba8d13e30c3e93610716dcc83466aa836c701d6'
+sha512sums=('3363e4f8f39a5c409d3e645216c6c20b1e61d3c98e42847c5156a45c1657f2e52a61fecc519f68a584981b97dff1468ff75f570b52a127f505edea87cc6b1c65'
             '47836a5e144e8e087aa58987f821f92bac2a6c58d29990b28ab33b7082cd476fa98473801d32cca1f1c27415a9a7552e7125809dece12597dc6ddd13a02d1ed9')
 
 prepare() {
