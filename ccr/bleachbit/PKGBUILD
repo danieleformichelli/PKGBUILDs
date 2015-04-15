@@ -1,0 +1,31 @@
+# Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# Contributor: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+# Contributor: yugrotavele <yugrotavele at archlinux dot us>
+# Contributor: Arkham <arkham at archlinux dot us>
+# Contributor: Christoph Zeiler <archNOSPAM_at_moonblade.dot.org>
+# Contributor: Arnaud Durand <biginozNOSPAM_at_free.dot.fr>
+# Contributor: Nuno Araujo <nuno.araujo at russo79.com>
+
+pkgname=bleachbit
+pkgver=1.6
+pkgrel=1
+pkgdesc='Deletes unneeded files to free disk space and maintain privacy'
+arch=('any')
+url='http://bleachbit.sourceforge.net/'
+license=('GPL3')
+depends=('pygtk' 'python2' 'desktop-file-utils' 'gtk-update-icon-cache' 'hicolor-icon-theme')
+install=$pkgname.install
+source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.bz2)
+sha512sums=('e95d489c333bdbada0da42c45727b9ddf2dcfc07b4274ae74faf46313fa5e824331f12a4bc2052c78c06ccb2604101eaf5be0663e52203e31a0ecd5ece44f15c')
+
+package() {
+    cd $pkgname-$pkgver
+
+    for file in $(find . -name '*.py' -print); do
+        sed -i -e 's_^#!.*/usr/bin/python_#!/usr/bin/python2_' \
+               -e 's_^#!.*/usr/bin/env.*python_#!/usr/bin/env python2_' "$file"
+    done
+    sed -i 's/python/python2/g' Makefile
+
+    make prefix=/usr DESTDIR=$pkgdir PYTHON=python2 install
+}

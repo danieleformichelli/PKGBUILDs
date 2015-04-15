@@ -1,7 +1,7 @@
 # Mantainer:   danyf90 <daniele.formichelli@gmail.com>
 
 pkgname=gtkwave
-pkgver=3.3.54
+pkgver=3.3.64
 pkgrel=1
 pkgdesc="A Fully Featured GTK+ Base Wave Viewer"
 arch=('x86_64')
@@ -9,7 +9,7 @@ url="http://gtkwave.sourceforge.net"
 depends=('gtk2' 'tk' 'tcl' 'gperf')
 license=('GPL')
 source=("http://gtkwave.sourceforge.net/gtkwave-$pkgver.tar.gz")
-sha512sums=('61c709d53a10796bb1c752c45f4b44062afbf3d1db337d910f837f5dec20f83118a8c018ea652b82fedee9f1e07813771704824079c7864e8b483624ebaa2612')
+sha512sums=('34150741942d2b82a5f937cf12b1793e04aea0444acaf4a4ba1c61e5bb70727d5990438833ee4d25fef81362929d0607ebd7fddb8fd178f437cafdf9c09e989f')
 
 build() {
   cd $srcdir/$pkgname-$pkgver
