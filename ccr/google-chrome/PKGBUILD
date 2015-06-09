@@ -2,7 +2,7 @@
 # Contributor: Anke Boersma <abveritas@chakra-project.org>
 
 pkgname=google-chrome
-pkgver=42.0.2311.135
+pkgver=43.0.2357.81
 pkgrel=1
 pkgdesc="Google Chrome Stable channel for Linux"
 arch=('x86_64')
