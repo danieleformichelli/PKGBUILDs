@@ -7,7 +7,7 @@
 # Contributor: Nuno Araujo <nuno.araujo at russo79.com>
 
 pkgname=bleachbit
-pkgver=1.6
+pkgver=1.8
 pkgrel=1
 pkgdesc='Deletes unneeded files to free disk space and maintain privacy'
 arch=('any')
@@ -16,7 +16,7 @@ license=('GPL3')
 depends=('pygtk' 'python2' 'desktop-file-utils' 'gtk-update-icon-cache' 'hicolor-icon-theme')
 install=$pkgname.install
 source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.bz2)
-sha512sums=('e95d489c333bdbada0da42c45727b9ddf2dcfc07b4274ae74faf46313fa5e824331f12a4bc2052c78c06ccb2604101eaf5be0663e52203e31a0ecd5ece44f15c')
+sha512sums=('f21245a3089de494295969d28d020548db6bbcf62c0004b85fc5f0ebb5ce7a0f98bd4680fa5b298bc4cb751dcac3093c81faafccb745082e12f3c8f972d29915')
 
 package() {
     cd $pkgname-$pkgver
