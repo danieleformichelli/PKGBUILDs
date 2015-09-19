@@ -2,7 +2,7 @@
 # Contributor: Anke Boersma <abveritas@chakra-project.org>
 
 pkgname=google-chrome-beta
-pkgver=45.0.2454.46
+pkgver=46.0.2490.33
 pkgrel=1
 pkgdesc="Google Chrome Beta channel for Linux"
 arch=('x86_64')
@@ -21,7 +21,7 @@ package() {
 
   msg "Extracting"
   ar -xv $srcdir/google-chrome-${_channel}_current_amd64.deb
-  tar -xvf $srcdir/data.tar.lzma
+  tar -xvf $srcdir/data.tar.xz
   msg2 "Done extracting!"
 
   msg "Installing"

@@ -25,8 +25,7 @@ package(){
   cd $srcdir
 
   install -d $pkgdir/opt
-  chmod +x $pkgname-${pkgver}_$_ARCH.bin
-  yes | ./$pkgname-${pkgver}_$_ARCH.bin -d $pkgdir/opt
+  yes | bash ./$pkgname-${pkgver}_$_ARCH.bin -d $pkgdir/opt
   rm $pkgdir/opt/genymotion/libQt*
 
   install -d $pkgdir/usr/bin
