@@ -2,7 +2,7 @@
 # Contributor: Andrea Cattaneo <andrea.cattaneo.dev@gmail.com>
 
 pkgname=genymotion
-pkgver=2.5.2
+pkgver=2.5.4
 pkgrel=2
 pkgdesc="Complete set of tools that provides a virtual environment for Android."
 arch=('i686' 'x86_64')

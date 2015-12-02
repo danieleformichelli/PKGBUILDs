@@ -3,7 +3,7 @@
 # Contributors: Farhad Shahbazi <farhad@enthusiasm.cc>,Lucky <archlinux@builds.lucky.li>
 
 pkgname=puddletag
-pkgver=1.0.3
+pkgver=1.0.5
 pkgrel=1
 pkgdesc="An audio tag editor for GNU/Linux (like Mp3tag)"
 url="http://puddletag.sourceforge.net"
@@ -13,13 +13,16 @@ depends=('chromaprint' 'mutagen' 'python2-configobj' 'python2-musicbrainz2' 'pyt
 optdepends=('python2-pillow: FLAC cover art'
             'quodlibet: QuodLibet library support')
 source=("http://downloads.sourceforge.net/project/$pkgname/$pkgname-$pkgver.tar.gz")
-sha512sums=('fc6f2c95f5e9d61a1b6aafa7a46ce7612d98e91fee0a480b3dcdadf1ce456bc9d453d49e42b29953493bcd282a52b310524497c036736aea0b5d14a5689f9002')
+sha512sums=('c689de6820286011fd3777b53ba60649dd2c014b497d2018aa3103e0aa02e3ab879928d8fe86d2aba674c06f26a143e7c61c92647ac458f673f7066cf7738c4f')
 screenshot="http://puddletag.sourceforge.net/_images/5.png"
+
+prepare() {
+  patch -Np2 -i ../puddletag-pyqt4.11.4.patch
+  sed -i 's|^#!.*python$|#!/usr/bin/python2|' $(grep -rl '^#!.*python')
+}
 
 build() {
   cd $srcdir/$pkgname-$pkgver
-
-  sed -i 's|^#!.*python$|#!/usr/bin/python2|' $(grep -rl '^#!.*python')
 
   python2 setup.py config
 }
@@ -27,6 +30,6 @@ build() {
 package() {
   cd $srcdir/$pkgname-$pkgver
 
-  python2 setup.py install --prefix=$pkgdir/usr --optimize=1
+  python2 setup.py install --root=$pkgdir --optimize=1
 }
 
