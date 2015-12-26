@@ -3,8 +3,8 @@
 # Contributor: Marcos Heredia <chelqo@gmail.com>
 
 pkgname=transmageddon
-pkgver=1.0
-pkgrel=2
+pkgver=1.5
+pkgrel=1
 pkgdesc="Transmageddon is a video transcoder for Linux and Unix systems built using GStreamer"
 arch=('any')
 url="http://www.linuxrising.org/"
@@ -16,8 +16,9 @@ optdepends=('gst-plugins-good: Extra media codecs'
             'gst-plugins-ugly: Extra media codecs'
             'gst-libav: Extra media codecs'
             'gst-vaapi: Hardware accelerated video encode')
+install=$pkgname.install
 source=("http://www.linuxrising.org/files/$pkgname-$pkgver.tar.xz")
-sha512sums=('9a50a01c39d89cbbd790063e2afc831975baf5f2edb1fa4f50955120e9ef466b4ba4e4ab0bdb081ced1f024b66db74b72bc57dcef7d5fc99d99b09aeca525be8')
+sha512sums=('044f46dcdc5996f686b4de3329d3bc35bba7c44752583825e03caaa9e5b07b1bc2e47c22a2009bd4aae779752a9851494606ff70ecd8d15e0b8b12cd04e49b7c')
 
 build() {
   cd $srcdir/$pkgname-$pkgver
