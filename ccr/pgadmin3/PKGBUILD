@@ -1,26 +1,36 @@
 # Maintainer:  danyf90 <daniele.formichelli@gmail.com>
+# AUR Maintainer: Sergej Pupykin <pupykin.s+arch@gmail.com>
 # Contributor: Phil Miller <philm[at]chakra-project[dot]org
 
 pkgname=pgadmin3
-pkgver=1.18.1
+pkgver=1.20.0
 pkgrel=1
 pkgdesc="A comprehensive design and management interface for PostgreSQL database"
 arch=('x86_64')
 url="http://www.pgadmin.org"
 license=('custom')
-depends=('wxgtk' 'postgresql-libs>=8.4.1' 'libxslt')
+depends=('wxgtk' 'postgresql-libs' 'libxslt')
 makedepends=('libpqxx')
+install=pgadmin3.install
 source=("http://ftp.postgresql.org/pub/pgadmin3/release/v$pkgver/src/pgadmin3-$pkgver.tar.gz"
-        "$pkgname.desktop")
-sha512sums=('e292aaf95159eda98fe5f5112aad758cc08c38fe325ef92c698009defeb3891d9e0d485c00a0cbb82b70a95f54755eeb7f90b82a34354e77b485f738b5458c99'
-            'a9b78e5a9016ab7f42c638e45bfa3c4f333250d54ac65992950c26f2f8f56564fd1a509ef488e487e7f1d54a5bef5a726f980928040cc7b1220bef38f90c5815')
+        "0001-Move-misplaced-unlock-of-s_currentObjectMutex.patch")
+sha512sums=('83521a16d60bf8c9cffb03e4fb401a31e28f764c31608c0b223f7c88a14a09f665c976f3472debd4ad8b6cd54f0fbd2b8de352c296180e6ea6f8088cb45447bc'
+            '13933a1e69b5af2768102b3fc2e7388df95b52d4afab98faa3ee7f3c6e7ac35f44eefc69636e5449762a2e9ce07d764c44d12ba6a258cbcdc6addd3c0904036a')
 
-build() {
+prepare() {
   cd $srcdir
-  convert pgadmin3-$pkgver/pgadmin/include/images/pgAdmin3.ico pgadmin3.png
+  convert pgadmin3-$pkgver/pgadmin/include/images/pgAdmin3.ico pgAdmin3.png
 
   cd pgadmin3-$pkgver
-  [ -f Makefile ] || ./configure --prefix=/usr
+  sed -i 's/wx-config/wx-config-2.8/' configure
+  sed -i 's/wxrc/wxrc-2.8/g' stringextract pgadmin/ui/embed-xrc
+
+  patch -p1 <$srcdir/0001-Move-misplaced-unlock-of-s_currentObjectMutex.patch
+}
+
+build() {
+  cd pgadmin3-$pkgver
+  [ -f Makefile ] || ./configure --prefix=/usr --with-wx-version=2.8
   make
 }
 
@@ -30,7 +40,13 @@ package() {
   make DESTDIR=$pkgdir/ install
   install -Dm644 i18n/$pkgname.lng $pkgdir/usr/share/pgadmin3/i18n
   install -Dm644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
+
   install -Dm644 pgadmin/include/images/pgAdmin3.ico $pkgdir/usr/share/pgadmin3/pgAdmin3.ico
-  install -Dm644 $srcdir/pgadmin3-3.png $pkgdir/usr/share/pgadmin3/pgAdmin3.png
+  install -Dm644 $srcdir/pgAdmin3-3.png $pkgdir/usr/share/pgadmin3/pgAdmin3.png
+
+  install -Dm644 $srcdir/pgAdmin3-5.png $pkgdir/usr/share/icons/hicolor/16x16/apps/pgAdmin3.png
+  install -Dm644 $srcdir/pgAdmin3-4.png $pkgdir/usr/share/icons/hicolor/32x32/apps/pgAdmin3.png
+  install -Dm644 $srcdir/pgAdmin3-3.png $pkgdir/usr/share/icons/hicolor/48x48/apps/pgAdmin3.png
+
   install -Dm644 pkg/pgadmin3.desktop $pkgdir/usr/share/applications/pgadmin3.desktop
 }
