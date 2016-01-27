@@ -7,7 +7,7 @@
 # Contributor: Nuno Araujo <nuno.araujo at russo79.com>
 
 pkgname=bleachbit
-pkgver=1.8
+pkgver=1.10
 pkgrel=1
 pkgdesc='Deletes unneeded files to free disk space and maintain privacy'
 arch=('any')
@@ -16,7 +16,7 @@ license=('GPL3')
 depends=('pygtk' 'python2' 'desktop-file-utils' 'gtk-update-icon-cache' 'hicolor-icon-theme')
 install=$pkgname.install
 source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.bz2)
-sha512sums=('f21245a3089de494295969d28d020548db6bbcf62c0004b85fc5f0ebb5ce7a0f98bd4680fa5b298bc4cb751dcac3093c81faafccb745082e12f3c8f972d29915')
+sha512sums=('15a2127a1f06e3cd8209b13daaae0b2f345f5f8e1d5f303165950126614fe086d59951dbab8a5f7ca26a9b07ee5f936206a2e6a9d9c35b32feb800a5ddbcc0d3')
 
 package() {
     cd $pkgname-$pkgver
@@ -25,6 +25,7 @@ package() {
         sed -i -e 's_^#!.*/usr/bin/python_#!/usr/bin/python2_' \
                -e 's_^#!.*/usr/bin/env.*python_#!/usr/bin/env python2_' "$file"
     done
+
     sed -i 's/python/python2/g' Makefile
 
     make prefix=/usr DESTDIR=$pkgdir PYTHON=python2 install
