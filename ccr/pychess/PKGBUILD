@@ -3,7 +3,7 @@
 # Contributor: Alexander Fehr <pizzapunk gmail com>
 
 pkgname=pychess
-pkgver=0.12.2
+pkgver=0.12.3
 pkgrel=1
 pkgdesc='Chess client'
 arch=('any')
@@ -12,7 +12,7 @@ license=('GPL')
 depends=('python' 'python-gobject' 'python-cairo' 'gobject-introspection' 'glib2' 'gtk3' 'pango' 'gdk-pixbuf2' 'gtksourceview3' 'gstreamer' 'gst-plugins-base' 'pygtksourceview2' 'gstreamer0.10-python' 'desktop-file-utils')
 install=pychess.install
 source=("http://www.pychess.org/download/pychess-$pkgver.tar.gz")
-sha512sums=('d20ff665f47b58dce92ee822c6495fb31b84f19b15e70644cb7caefda837597e075f62cd0aa6bdd36f342d3eaa66174f9fa950800ec77346ef1cccfa7e37c735')
+sha512sums=('597fd4c28a970df0d2ce3805eedd7530e259c1b60dd4e51bf1c56eb2376fe6256df30f12b077db3c9f1aab8baed06f023696827b57fb0963b9569b613656d4af')
 
 package() {
   cd pychess-$pkgver
