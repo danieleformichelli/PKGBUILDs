@@ -9,7 +9,8 @@ pkgdesc='Chess client'
 arch=('any')
 url='http://pychess.org/'
 license=('GPL')
-depends=('python' 'python-gobject' 'python-cairo' 'gobject-introspection' 'glib2' 'gtk3' 'pango' 'gdk-pixbuf2' 'gtksourceview3' 'gstreamer' 'gst-plugins-base' 'pygtksourceview2' 'gstreamer0.10-python' 'desktop-file-utils')
+depends=('python3' 'python3-gobject' 'python3-cairo' 'gobject-introspection' 'glib2' 'gtk3' 'pango' 'gdk-pixbuf2' 'gtksourceview3' 'gstreamer' 'gst-plugins-base' 
+'pygtksourceview2' 'gstreamer0.10-python' 'desktop-file-utils')
 install=pychess.install
 source=("http://www.pychess.org/download/pychess-$pkgver.tar.gz")
 sha512sums=('597fd4c28a970df0d2ce3805eedd7530e259c1b60dd4e51bf1c56eb2376fe6256df30f12b077db3c9f1aab8baed06f023696827b57fb0963b9569b613656d4af')
