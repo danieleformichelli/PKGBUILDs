@@ -3,7 +3,7 @@
 # Contributor: Phil Miller <philm[at]chakra-project[dot]org
 
 pkgname=pgadmin3
-pkgver=1.22.0
+pkgver=1.22.1
 pkgrel=1
 pkgdesc="A comprehensive design and management interface for PostgreSQL database"
 arch=('x86_64')
@@ -13,7 +13,7 @@ depends=('wxgtk' 'postgresql-libs' 'libxslt')
 makedepends=('libpqxx')
 install=pgadmin3.install
 source=("http://ftp.postgresql.org/pub/pgadmin3/release/v$pkgver/src/pgadmin3-$pkgver.tar.gz")
-sha512sums=('db16ac1b92e95a6da51be973b6833e53aed4c1d8740c8bccbfd778b0c3d3a4158fb13107761e0a39227aea87360be3b297ebc8809ac8ca5102d673935a33727c')
+sha512sums=('f190e82317e10b75cb0ebd7cc0c878c4be9c392e33aba44a1356446e4cac92735834a32b1d65999ffc3e36ed130d4cfcc1c25ad5faa3c745e884fccd797331e0')
 
 prepare() {
   cd $srcdir
