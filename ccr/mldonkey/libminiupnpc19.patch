@@ -1,0 +1,32 @@
+From d0f0cd5ce38bac67ecc55e4cc5dd2e1883ebc2e4 Mon Sep 17 00:00:00 2001
+From: ygrek <ygrek@autistici.org>
+Date: Sat, 17 Oct 2015 16:00:17 -0700
+Subject: [PATCH] fix build with libminiupnpc 1.9 (closes #13)
+
+---
+ src/utils/net/upnp_stubs.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/src/utils/net/upnp_stubs.c b/src/utils/net/upnp_stubs.c
+index 41942f3..0be53d0 100644
+--- a/src/utils/net/upnp_stubs.c
++++ b/src/utils/net/upnp_stubs.c
+@@ -640,7 +640,17 @@ upnpPulse( ml_upnpmp_t * map )
+     {
+         struct UPNPDev * devlist;
+         errno = 0;
+-        devlist = upnpDiscover( 2000, NULL, NULL, 0, 0, 0 );
++        devlist = upnpDiscover(
++          2000, /* delay */
++          NULL, /* multicastif */
++          NULL, /* minissdpsock */
++          0,    /* localport */
++          0,    /* ipv6 */
++#if MINIUPNPC_API_VERSION >= 14
++          2,    /* ttl */
++#endif
++          NULL  /* error */
++        );
+         if( devlist == NULL )
+         {
+             dbg_printf( "upnpDiscover failed (errno %d - %s)\n", errno,  str_errno( errno ) );

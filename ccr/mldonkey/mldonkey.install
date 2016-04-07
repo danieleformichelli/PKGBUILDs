@@ -6,8 +6,16 @@ post_install() {
     useradd --system -c 'Mldonkey daemon user' -g mldonkey -d /var/lib/mldonkey -s /bin/false mldonkey
   fi
 
+  mkdir -p /var/lib/mldonkey
   chown mldonkey:mldonkey /var/lib/mldonkey
-  update-desktop-database -q
+
+  if type -P update-desktop-database &> /dev/null; then
+    update-desktop-database -q
+  fi
+
+  if type -P systemd-tmpfiles &> /dev/null; then
+    systemd-tmpfiles --create mldonkey.conf
+  fi
 }
 
 post_upgrade() {
@@ -15,12 +23,7 @@ post_upgrade() {
 }
 
 post_remove() {
-  if getent passwd mldonkey >/dev/null; then
-    userdel mldonkey
+  if type -P update-desktop-database &> /dev/null; then
+    update-desktop-database -q
   fi
-  if getent group mldonkey >/dev/null; then
-    groupdel mldonkey
-  fi
-
-  update-desktop-database -q
 }
