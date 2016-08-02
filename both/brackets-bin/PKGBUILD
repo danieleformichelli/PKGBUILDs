@@ -3,14 +3,13 @@
 
 pkgname=brackets-bin
 _pkgname=brackets
-pkgver=1.6
-pkgrel=1
+pkgver=1.7
+pkgrel=2
 pkgdesc="A code editor for HTML, CSS and JavaScript. "
 arch=("i686" "x86_64")
 url="http://brackets.io"
 license=("MIT")
 depends=("gconf" "libgcrypt15" "nodejs" "nspr" "nss" "systemd")
-makedepends=("prelink")
 optdepends=("google-chrome: to enable Live Preview"
             "gnuplot: to enable node benchmarking"
             "gtk2: to enable native UI"
@@ -22,10 +21,10 @@ conflicts=('brackets' 'brackets-git')
 install=$pkgname.install
 
 source_i686=("https://github.com/adobe/$_pkgname/releases/download/release-$pkgver/Brackets.Release.$pkgver.32-bit.deb")
-sha512sums_i686=('3cda0049a10504e26faf5d750b1cd35f4161147cb7d71f0f9fb22fd274d1b18cdb27b0c95694620d22d61203200ab487ee05206d855048bf991951a289f579f0')
+md5sums_i686=('1c8b9546d9f05ca7a3a2c1ab32937d17')
+md5sums_x86_64=('40ff70501e1673b0e6d6868d267b0432')
 
 source_x86_64=("https://github.com/adobe/$_pkgname/releases/download/release-$pkgver/Brackets.Release.$pkgver.64-bit.deb")
-sha512sums_x86_64=('e3fba356a6b152e8d27b521ae2be69cc51b935c04f67a448c3f23be4267f40176e1344ef06fd8172ed0927d990ba50c5babde930f713bb9e5e5e912d63787e0c')
  
 prepare() {
   cd $srcdir
@@ -34,7 +33,6 @@ prepare() {
   tar -xf data.tar.xz
 
   msg2 "  -> Fixing executable stack..."
-  execstack -c opt/$_pkgname/Brackets
 }
 
 package() {
