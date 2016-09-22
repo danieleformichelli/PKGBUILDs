@@ -2,19 +2,21 @@
 # Contributor: Lukas Jirkovsky <l.jirkovsky@gmail.com>
 
 pkgname=intellij-idea-community-edition
-pkgver=2016.1.2b
-_pkgver=145.972.3
+pkgver=2016.2.4
+_pkgver=162.2032.8
 pkgrel=1
 pkgdesc="IDE for Java, Groovy and other programming languages with advanced refactoring features"
 arch=('any')
 url="http://www.jetbrains.org/"
 license=('Apache')
+backup=('usr/share/intellijidea-ce/bin/idea.vmoptions'
+        'usr/share/intellijidea-ce/bin/idea64.vmoptions')
 depends=('java-environment' 'giflib' 'libxtst')
 install=idea.install
 source=("http://download.jetbrains.com/idea/ideaIC-$pkgver.tar.gz"
         "idea.desktop"
         "idea.sh")
-sha512sums=('cb5fd996091640aed1d2ae7a2a96c17938717cf6c5618d076e2ec30ce2e2c8c17949632c0b136fc3e18da1b17b3b3ee9f83e39c8535aeaebbc67a6f42bb6d693'
+sha512sums=('c6cdac9372707f568b4c2a997ba8393e300c3ab9786a011651091e683e70c21459caf64698a0b7db5e9c2cfd3aceb8b9431c18e427b713aaac8b1978073fdaaa'
             '0dae33ea761ba32b911103b7b54462deeae7b3ac54b95c3b177ec3386451269ba2f4bcf92329e13edfa1ce674c68003453591d06e8eab9443a39b1791e9b2444'
             'bafedcce57d9ba3ed19421c513d40789da586598eacccd013ce6652fd62b0c6b5cf0c10c3738b37e876f20e1b743f09e3cc74ec4510a491ef894aa42fc4c096b')
 
