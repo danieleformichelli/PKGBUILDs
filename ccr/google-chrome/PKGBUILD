@@ -5,7 +5,7 @@
 # or use: $ curl -s https://dl.google.com/linux/chrome/rpm/stable/x86_64/repodata/other.xml.gz | gzip -df | awk -F\" '/pkgid/{ sub(".*-","",$4); print $4": "$10 }'
 
 pkgname=google-chrome
-pkgver=55.0.2883.75
+pkgver=57.0.2987.110
 pkgrel=1
 pkgdesc="An attempt at creating a safer, faster, and more stable browser (Stable Channel)"
 arch=('x86_64')
@@ -14,17 +14,18 @@ license=('custom:chrome')
 depends=('alsa-lib' 'desktop-file-utils' 'flac' 'gconf' 'gtk2' 'harfbuzz' 'harfbuzz-icu'
          'hicolor-icon-theme' 'icu' 'libpng' 'libxss' 'libxtst' 'nss' 'opus' 'snappy' 'speech-dispatcher'
          'ttf-font' 'xdg-utils')
-optdepends=('kdebase-kdialog: needed for file dialogs in KDE'
-            'ttf-liberation: fix fonts for some PDFs')
+optdepends=('ttf-liberation: fix fonts for some PDFs')
 options=('!emptydirs' '!strip')
 install=$pkgname.install
 _channel=stable
 source=("google-chrome-${_channel}_${pkgver}_amd64.deb::https://dl.google.com/linux/direct/google-chrome-${_channel}_current_amd64.deb"
         "$url/browser/privacy/eula_text.html"
-        'google-chrome-stable.sh')
-md5sums=('45b8ef99605e140ea46198175f8dd512'
+        'google-chrome-stable.sh'
+        'StartupWMClass-and-GNOME3-context-menu.patch')
+md5sums=('b8549c835020ad31b81e1e8d00c46507'
          'SKIP'
-         '99fa93d5e7fb5d622cef0f9621f3ffa3')
+         '99fa93d5e7fb5d622cef0f9621f3ffa3'
+         '19714f87c63cabfeb0ea8950c452a02b')
 
 package() {
   msg2 "Extracting the data.tar.xz..."
@@ -48,6 +49,10 @@ package() {
 
   #msg2 "Fixing Chrome icon resolution..."
   #sed -i "/Exec=/i\StartupWMClass=Google-chrome" "$pkgdir"/usr/share/applications/google-chrome.desktop
+
+  msg2 "Fixing Chrome icon resolution and GNOME 3 context menu..."
+  cd "$pkgdir"
+  patch -p0 -i "$srcdir"/StartupWMClass-and-GNOME3-context-menu.patch
 
   msg2 "Removing Debian Cron job and duplicate product logos..."
   rm -r "$pkgdir"/etc/cron.daily/ "$pkgdir"/opt/google/chrome/cron/
